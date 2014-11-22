@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="TurneroAtencion2.componentes.ItemTurno"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="500" BorderBrush="#FF030349" Margin="2">
+    <Grid Name="mainGrid" Background="AliceBlue" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Name="lblName" Grid.ColumnSpan="2">Nombre</Label>
+        <Label Name="lblHC" Grid.Row="1">Historia Clínica</Label>
+        <Label Name="lblNro" Grid.Row="1" Grid.Column="1">N°</Label>
+        <Label Name="lblEstado" Grid.Row="1" Grid.Column="2">Estado</Label>
+    </Grid>                    
+</UserControl>

@@ -1,0 +1,55 @@
+﻿<Window x:Class="RssReader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <XmlDataProvider x:Key="rssData" XPath="//item" Source="http://clarin.feedsportal.com/c/33088/f/577681/index.rss" />
+    </Window.Resources>
+    <Grid Margin="3">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ListBox Name="lstItems" Margin="3" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource rssData}}" SelectedIndex="0">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image Margin="3" Source="{Binding XPath=enclosure/@url}"/>
+                        
+                        <Grid VerticalAlignment="Stretch" Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Margin="3" VerticalAlignment="Center" FontWeight="Bold">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding XPath="title" />
+                                        <Binding XPath="pubDate" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="1" Margin="3" TextWrapping="Wrap" TextAlignment="Justify" Text="{Binding XPath=description, Path=InnerText}"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--
+        <StackPanel Grid.Row="1" Orientation="Vertical" DataContext="{Binding ElementName=lstItems, Path=SelectedItem}">
+            <TextBlock Margin="3" Text="{Binding XPath=title, Path=InnerText}"></TextBlock>  
+            <TextBlock Margin="3" Opacity="0.72" Text="{Binding XPath=pubDate}" />
+            <TextBlock Margin="3" TextWrapping="Wrap" Text="{Binding XPath=description, Path=InnerText}"></TextBlock>
+            <TextBlock>
+                <Hyperlink Name="lnkGoToArticle" Tag="{Binding XPath=link, Path=InnerText}" Click="lnkGoToArticle_Click">
+                    Ver articulo
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel> -->
+
+       <!-- <WebBrowser Grid.Row="2" ns:WebBrowserUtility.BindableSource="{Binding WebAddress}></WebBrowser> -->
+    </Grid>
+</Window>

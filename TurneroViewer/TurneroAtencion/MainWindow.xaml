@@ -1,0 +1,54 @@
+﻿<Window x:Class="TurneroAtencion.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FFA2A1A1" Offset="0"/>
+                <GradientStop Color="#FFD8D6D6" Offset="0.996"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45px"></RowDefinition>
+            <RowDefinition Height="25px"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="40px"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image HorizontalAlignment="Left" Source="logo.png"></Image>
+        <Label Grid.Row="1" FontWeight="Bold">Colas</Label>
+        <Label Grid.Column="1" FontWeight="Bold" Grid.Row="1">Turnos</Label>
+        <ListBox Margin="4" Grid.Row="2" ItemsSource="{Binding TheList}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Name="CheckBoxZone" IsChecked="{Binding isChecked}" Content="{Binding caja}" Checked="CheckBoxZone_Checked" Margin="0,5,0,0" Unchecked="CheckBoxZone_Checked"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Name="lbTurnos" Margin="4" Grid.Row="2" Grid.Column="1"></ListBox>
+        <Grid Grid.Row="3" Grid.RowSpan="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label FontWeight="Bold">Llamados</Label>
+            <ListBox Name="lbLlamados" Grid.Row="1"></ListBox>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Margin="5" Click="Button_Click">Llamar</Button>
+            <Button Grid.Column="1" Margin="5" Click="Button_Click_1">Atender</Button>
+            <Button Grid.Column="2" Margin="5" Click="Button_Click_2">Finalizar</Button>
+        </Grid>
+        <Image Name="ikritLogo" Grid.Row="4" Margin="6" HorizontalAlignment="Left" Source="ssheader_logo.png" MouseDown="ikritLogo_MouseDown"></Image>
+    </Grid>
+</Window>

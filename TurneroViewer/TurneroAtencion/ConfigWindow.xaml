@@ -1,0 +1,13 @@
+﻿<Window x:Class="TurneroAtencion.Config"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Config" Height="300" Width="300">
+    <Grid>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FFA2A1A1" Offset="0"/>
+                <GradientStop Color="#FFD8D6D6" Offset="0.996"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+    </Grid>
+</Window>

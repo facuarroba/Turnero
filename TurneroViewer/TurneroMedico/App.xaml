@@ -1,0 +1,15 @@
+﻿<Application x:Class="TurneroMedico.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style x:Key="buttonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,0,0,5" />
+            <Setter Property="Background" Value="#CC00518E"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Opacity" Value="0.8"/>
+        </Style>
+    </Application.Resources>
+</Application>

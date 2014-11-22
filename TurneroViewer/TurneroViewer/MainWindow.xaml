@@ -1,0 +1,192 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mar="clr-namespace:TurneroViewer.componentes.animations"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:componentes="clr-namespace:TurneroViewer.componentes" x:Class="TurneroViewer.MainWindow"
+        Name="mainWindow" Title="" Height="350" Width="525" Loaded="Window_Loaded" WindowState="Maximized" Topmost="True" Icon="Visualizador.ico">
+    <Window.Resources>
+        <XmlDataProvider x:Key="rssData" XPath="//item" Source="http://clarin.feedsportal.com/c/33088/f/577681/index.rss" />
+    </Window.Resources>
+    <Grid Name="mainGrid">
+        <Grid.Background>
+            <!--<ImageBrush ImageSource="imagenes/pattern_texture1191.jpg"/>-->
+            <RadialGradientBrush>
+                <GradientStop Color="#FFA2A1A1" Offset="0"/>
+                <GradientStop Color="#FFD8D6D6" Offset="0.996"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+            </Grid.RowDefinitions>
+            <Border Name="logoImage" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" CornerRadius="0" Margin="0" BorderBrush="#FFF9F3F3" HorizontalAlignment="Stretch" Opacity="0.5">
+                <Viewbox HorizontalAlignment="Left" StretchDirection="Both"  Stretch="Uniform">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="3*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Image Grid.RowSpan="3" Source="imagenes/logo.png" />
+                        <TextBlock Grid.Column="1" Style="{StaticResource contactoStyle}">0223 494-9066 | 0223 491-3375 | 0223 492-1221</TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="1" Style="{StaticResource contactoStyle}">Mitre 2951 - Mar del Plata - Argentina</TextBlock>
+                        <TextBlock Grid.Column="1" Grid.Row="2" Style="{StaticResource contactoStyle}">ced@ced.com.ar</TextBlock>
+                    </Grid>
+                </Viewbox>
+            </Border>
+            <Border Name="multimediaBorder" Grid.Row="1" UseLayoutRounding="False">
+                <MediaElement Margin="10" Name="mediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaEnded="mediaPlayer_MediaEnded" IsMuted="True">
+                </MediaElement>
+            </Border>
+        </Grid>
+
+
+
+
+        <!--<mar:MarqueeText Grid.Column="1" Background="Transparent" FontSize="25" FontWeight="Bold" MarqueeTimeInSeconds="10"  Foreground="White" MarqueeContent="Este es un mensaje que se mueve al compas del tamboril"  MarqueeType="RightToLeft"></mar:MarqueeText>-->
+        <Grid Name="lateralGrid" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="numbersGrid" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+            <Grid Name="atendidosGrid" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+            </Grid>
+        </Grid>
+        <Grid Name="footer" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" Opacity="0.5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Viewbox Grid.RowSpan="2">
+                    <Image Name="ikritLogo" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="2" Source="imagenes/ssheader_logo.png"></Image>
+                </Viewbox>
+                <Viewbox Grid.Column="1"  Margin="3" HorizontalAlignment="Left">
+                    <TextBlock Name="ikritWeb" HorizontalAlignment="Right"  Style="{StaticResource contactoStyle}">0223 491-0421 – 25 de Mayo 3153 of. 7 – Mar del Plata</TextBlock>
+                </Viewbox>
+                <Viewbox  Grid.Column="1" Grid.Row="1" Margin="3" HorizontalAlignment="Left">
+                    <TextBlock Name="ikritData" HorizontalAlignment="Right"  Style="{StaticResource contactoStyle}">info@ikrit.com.ar - www.ikrit.com.ar</TextBlock>
+                </Viewbox>
+            </Grid>
+
+            <Grid Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="3*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+               <!-- <ListBox Name="lstItems" Margin="3" Grid.ColumnSpan="4" VerticalContentAlignment="Center" ItemsSource="{Binding Source={StaticResource rssData}}" SelectedIndex="0" Background="{x:Null}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Image Margin="3" Source="{Binding XPath=enclosure/@url}"/>
+
+                                <StackPanel Grid.Column="1" Width="Auto">
+                                    <TextBlock Margin="3" VerticalAlignment="Center" FontWeight="Bold" TextTrimming="WordEllipsis" >
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} - {1}">
+                                                <Binding XPath="title" />
+                                                <Binding XPath="pubDate" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock Grid.Row="1" Margin="3" TextWrapping="Wrap" TextAlignment="Justify" Text="{Binding XPath=description, Path=InnerText}"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                -->
+                <Viewbox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" StretchDirection="UpOnly"  Stretch="Uniform"  HorizontalAlignment="Left">
+                    <Grid x:Name="climaGrid" Grid.Row="2" Grid.ColumnSpan="4" HorizontalAlignment="Right">
+                    <Grid.Resources>
+                        <BitmapImage x:Key="01d" UriSource="/TurneroViewer;component/imagenes/iconos/01d.png"/>
+                        <BitmapImage x:Key="01n" UriSource="/TurneroViewer;component/imagenes/iconos/01n.png"/>
+                        <BitmapImage x:Key="02d" UriSource="/TurneroViewer;component/imagenes/iconos/02d.png"/>
+                        <BitmapImage x:Key="02n" UriSource="/TurneroViewer;component/imagenes/iconos/02n.png"/>
+                        <BitmapImage x:Key="03d" UriSource="/TurneroViewer;component/imagenes/iconos/03d.png"/>
+                        <BitmapImage x:Key="03n" UriSource="/TurneroViewer;component/imagenes/iconos/03n.png"/>
+                        <BitmapImage x:Key="04d" UriSource="/TurneroViewer;component/imagenes/iconos/04d.png"/>
+                        <BitmapImage x:Key="04n" UriSource="/TurneroViewer;component/imagenes/iconos/04n.png"/>
+                        <BitmapImage x:Key="09d" UriSource="/TurneroViewer;component/imagenes/iconos/09d.png"/>
+                        <BitmapImage x:Key="09n" UriSource="/TurneroViewer;component/imagenes/iconos/09n.png"/>
+                        <BitmapImage x:Key="10d" UriSource="/TurneroViewer;component/imagenes/iconos/10d.png"/>
+                        <BitmapImage x:Key="10n" UriSource="/TurneroViewer;component/imagenes/iconos/10n.png"/>
+                        <BitmapImage x:Key="11d" UriSource="/TurneroViewer;component/imagenes/iconos/11d.png"/>
+                        <BitmapImage x:Key="11n" UriSource="/TurneroViewer;component/imagenes/iconos/11n.png"/>
+                        <BitmapImage x:Key="13d" UriSource="/TurneroViewer;component/imagenes/iconos/13d.png"/>
+                        <BitmapImage x:Key="13n" UriSource="/TurneroViewer;component/imagenes/iconos/13n.png"/>
+                        <BitmapImage x:Key="50d" UriSource="/TurneroViewer;component/imagenes/iconos/50d.png"/>
+                        <BitmapImage x:Key="50n" UriSource="/TurneroViewer;component/imagenes/iconos/50n.png"/>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="50px"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="icono" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Stretch" Source="{StaticResource 01d}"/>
+                    <!--<Viewbox Grid.Column="1" Grid.Row="2" StretchDirection="Both"  Stretch="Uniform"  HorizontalAlignment="Left">-->
+                        <Label x:Name="tempLabel" HorizontalAlignment="Right" Grid.Column="1" VerticalAlignment="Stretch" Style="{StaticResource labelStyle}" Content="- °C"/>
+                    <!--</Viewbox>-->
+                    <!--<Viewbox Grid.Column="0" Grid.Row="2" StretchDirection="Both"  Stretch="Uniform"  HorizontalAlignment="Left">-->
+                        <Label Name="labelHora" Grid.Column="0" HorizontalAlignment="Left" Style="{StaticResource labelStyle}"  VerticalAlignment="Stretch"></Label>
+                    <!--</Viewbox>-->
+                    </Grid>
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
