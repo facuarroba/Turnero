@@ -59,22 +59,34 @@ namespace TurneroAtencion2
         }
         void dayTimer_Tick(object sender, EventArgs e)
         {
-            if (lbTurnos.SelectedItem == null)
+            //if (lbTurnos.SelectedItem == null)
+            object item = lbTurnos.SelectedItem;
                 PopulateListTurnos();
+            if(item !=null)
+                findSelected2(lbTurnos, ((Turno)item).idTurno);
 
-            object item = lbLlamados.SelectedItem;
+            item = lbLlamados.SelectedItem;
             PopulateListLlamados();
             if (item != null)
-                findSelected(((ItemTurno) item).Turno.idTurno);
+                findSelected(lbLlamados,((ItemTurno) item).Turno.idTurno);
 
         }
 
-        private void findSelected(String id)
+        private void findSelected(ListBox lb, String id)
         {
-            foreach (ItemTurno item in lbLlamados.Items)
+            foreach (ItemTurno item in lb.Items)
             {
                 if (item.Turno.idTurno.Equals(id))
-                    lbLlamados.SelectedItem = item;
+                    lb.SelectedItem = item;
+            }
+        }
+
+        private void findSelected2(ListBox lb, String id)
+        {
+            foreach (Turno item in lb.Items)
+            {
+                if (item.idTurno.Equals(id))
+                    lb.SelectedItem = item;
             }
         }
 

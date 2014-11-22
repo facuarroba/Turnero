@@ -125,7 +125,7 @@ namespace TurneroClassLibrary
 
         public List<Turno> ordenarTurnos(Turno[] lista)
         {
-            List<Turno> res = lista.OrderBy(o => o.idTurno).ToList();
+            List<Turno> res = lista.OrderBy(o => o.idTurnoInt).ToList();
             return res;
         }
 

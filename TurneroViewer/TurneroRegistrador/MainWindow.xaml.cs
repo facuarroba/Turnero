@@ -104,8 +104,10 @@ namespace TurneroRegistrador
                 if (HC.Equals(""))
                 {
                     if (MessageBox.Show("No ingresó un número de historia clínica. ¿Desea continuar?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    {
                         Keyboard.Focus(txtHC);
                         return;
+                    }
                 }
 
                 if (MessageBox.Show("Va a otorgar un turno a " + Nombre + ", con historia clinica n° " + HC + ". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)

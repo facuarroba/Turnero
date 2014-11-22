@@ -127,10 +127,11 @@ namespace TurneroViewer
 
         private void UpdateNumeros(Turnos turnos)
         {
-            this.numbersGrid.Children.Clear();
+            
             List<int> cambios = new List<int>();
             if (turnos.resultado == "ok")
             {
+                this.numbersGrid.Children.Clear();
                 if (turnos.cantidad != "0")
                     cambios = compareList(turnos);
                 for (int i = 0; i < turnos.count; i++)

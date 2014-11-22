@@ -28,7 +28,7 @@ namespace TurneroMedico
         private string ID_TERMINAL = "101";
         private int errorCount = 0;
         private static int maxErrorCount = 5;
-        private static int spanQuery = 800;
+        private static int spanQuery = 1000;
         private static int spanOnErrorQuery = 10000;
 
         private static string emptyVal = "- --";

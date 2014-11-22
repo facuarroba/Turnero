@@ -84,6 +84,15 @@ namespace TurneroClassLibrary.entities
             return tipoAtencion + " " + numeracion;
         }
         
+        public int idTurnoInt
+        {   
+            get 
+            {
+                return Convert.ToInt16(idTurno);
+            }
+            
+        }
+
         public override string ToString()
         {
             string result = "Nombre: "+ nombre + " - Numero: " + numeroString();
