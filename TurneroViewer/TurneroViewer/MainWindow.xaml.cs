@@ -70,17 +70,14 @@ namespace TurneroViewer
                 this.labelHora.Content = DateTime.Now.ToString("dd/MM/yyyy HH:mm    ");
             }, this.Dispatcher);
 
-
             NLogLogger.ConfigureLogger("C:\\","Display");
             _logger = new NLogLogger();
             _logger.Info("Application starting.");
-
 
             queueTimer = new DispatcherTimer();
             queueTimer.Interval = TimeSpan.FromMilliseconds(numbersRefresh);
             queueTimer.Tick += new EventHandler(queueTimer_Tick);
             queueTimer.Start();
-
         }
 
         void queueTimer_Tick(object sender, EventArgs e)
@@ -90,7 +87,6 @@ namespace TurneroViewer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //multimedia
             this.mediaPlayer.Source = new Uri(ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.VideoPath"), UriKind.RelativeOrAbsolute);
             this.mediaPlayer.Play();
 
@@ -121,13 +117,15 @@ namespace TurneroViewer
             if (count % 2 == 0)
             {
                 Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL,"3");
-                UpdateNumeros(turnos);
+                if (turnos != null)
+                {
+                    UpdateNumeros(turnos);
+                }
             }
         }
 
         private void UpdateNumeros(Turnos turnos)
         {
-            
             List<int> cambios = new List<int>();
             if (turnos.resultado == "ok")
             {
@@ -147,13 +145,12 @@ namespace TurneroViewer
                     PlaySound();
                 buffer = turnos;
                 queueTimer.Interval = TimeSpan.FromMilliseconds(numbersRefresh);
-                //this.labelMsg.Text = "";
+
                 updateAtendidos();
             }
             else
             {
                 queueTimer.Interval = queueTimer.Interval + queueTimer.Interval;
-                //this.labelMsg.Text = turnos.msg;
             }
         }
 
@@ -162,7 +159,6 @@ namespace TurneroViewer
             Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL, "4");
 
             atendidosGrid.Children.Clear();
-            
             
             List<int> cambios = new List<int>();
             if (turnos.resultado == "ok")
@@ -174,7 +170,7 @@ namespace TurneroViewer
                     d.Turno = t;
                     Grid.SetRow(d, i);
                     atendidosGrid.Children.Add(d);
-               }
+                }
             }
             
         }
@@ -217,10 +213,6 @@ namespace TurneroViewer
             SoundPlayer player = new SoundPlayer("sounds/line.wav");
             player.Play();
         }
-
-        
-
-
 
     }
 }

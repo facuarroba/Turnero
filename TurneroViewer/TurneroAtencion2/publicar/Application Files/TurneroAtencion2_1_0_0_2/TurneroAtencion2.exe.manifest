@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="TurneroAtencion2.exe" version="1.0.0.2" publicKeyToken="04a0c99f2ba470fb" language="neutral" processorArchitecture="msil" type="win32" />
+  <description asmv2:iconFile="Atendedor.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="TurneroAtencion2" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="TurneroAtencion2.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          Opciones del manifiesto de Control de cuentas de usuario
+          Si desea cambiar el nivel de Control de cuentas de usuario de Windows, reemplace el 
+          nodo requestedExecutionLevel por alguno de los siguientes.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         Si desea usar la virtualización de archivos y del Registro para la 
+         compatibilidad con versiones anteriores, elimine el nodo requestedExecutionLevel.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="NLog.dll" size="409088">
+      <assemblyIdentity name="NLog" version="3.0.0.0" publicKeyToken="5120E14C03D0593C" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>8So7CtQEffnRJsRYUfCq7lvfaU8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="RestSharp.dll" size="160256">
+      <assemblyIdentity name="RestSharp" version="104.4.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>jJuVc60SDeaZeRstN6WytJX94zo=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TurneroAtencion2.exe" size="770048">
+      <assemblyIdentity name="TurneroAtencion2" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>Px1RtDZbwZUwxyxDq1wci89SQV8=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="TurneroClassLibrary.dll" size="31744">
+      <assemblyIdentity name="TurneroClassLibrary" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <dsig:DigestValue>gSHj1UEp8FB3F0v4W+7e0eXjM6c=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Atendedor.ico" size="370070">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>M6gb60yx22dzOB9gThBnGmVc1/U=</dsig:DigestValue>
+    </hash>
+  </file>
+  <file name="TurneroAtencion2.exe.config" size="547">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+      <dsig:DigestValue>f+r+c2w9mUSNMPJnCUKkQvVXwYg=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=Facundo-PC\Facundo" issuerKeyHash="e815df85bc237a9be84b5124d5d2423324113251" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>Q2qpnxeNVonyhzsgHLCnNttbpXE=</DigestValue></Reference></SignedInfo><SignatureValue>cuxymth2dBVo8kgvfAMIXdtBjnS3urKFQVF6L2K6WX2Ij5OTLUOrD5adTV7Y4hAePj3QMbag6/zMKcpWqoL67Mo+rUHX+xB3LTjDbr8DyWFkbiYNMaYTUCifNdhAgHvkb+/1ShJysbLWFHic0U5vz8XOqKTIF50a7uM8My+EuPk=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>uvsX702aRgnBG1qVv+LUtx3o5kdAge3Og67thsdLJFCRgLr+J3UEAnr51/8A3/47hIE56hPXcq768P1dWw4lEkxNNv3Cy30g33TKCa45QJk9hrHJ6R/3J3zuoqzxJolwyyBPGBlcG6WcVFOohIOEygtZRAeaEHichiIJnH9+asc=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="71a55bdb36a7b01c203b87f289568d179fa96a43" Description="" Url=""><as:assemblyIdentity name="TurneroAtencion2.exe" version="1.0.0.2" publicKeyToken="04a0c99f2ba470fb" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=Facundo-PC\Facundo</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" /><DigestValue>hZ2j35MH5Qsb02yoLgmY9d0sSEw=</DigestValue></Reference></SignedInfo><SignatureValue>hYOLT/bNTMl/xEB5LPNPkxeDHzZ2zhj9CkFJahnbSCaKoYd51/KTXplIubGLVKIqBxFTuCzq/D4AKog9Qay1AfEYTSnEBdEIUDiwv8Dicw1UBaN/G4HOD2uFn++SWXHhlFVLJ63ZqwZ/tYZMdnBI/fxFWgvT8TDXChxekO3yAPc=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>uvsX702aRgnBG1qVv+LUtx3o5kdAge3Og67thsdLJFCRgLr+J3UEAnr51/8A3/47hIE56hPXcq768P1dWw4lEkxNNv3Cy30g33TKCa45QJk9hrHJ6R/3J3zuoqzxJolwyyBPGBlcG6WcVFOohIOEygtZRAeaEHichiIJnH9+asc=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB4TCCAUqgAwIBAgIQOdqXljcSAaNK1geS1NyK8DANBgkqhkiG9w0BAQUFADAvMS0wKwYDVQQDHiQARgBhAGMAdQBuAGQAbwAtAFAAQwBcAEYAYQBjAHUAbgBkAG8wHhcNMTQxMTIzMTkwNTE5WhcNMTUxMTI0MDEwNTE5WjAvMS0wKwYDVQQDHiQARgBhAGMAdQBuAGQAbwAtAFAAQwBcAEYAYQBjAHUAbgBkAG8wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBALr7F+9NmkYJwRtalb/i1Lcd6OZHQIHtzoOu7YbHSyRQkYC6/id1BAJ6+df/AN/+O4SBOeoT13Ku+vD9XVsOJRJMTTb9wst9IN90ygmuOUCZPYaxyekf9yd87qKs8SaJcMsgTxgZXBulnFRTqISDhMoLWUQHmhB4nIYiCZx/fmrHAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAfSuwgMKz5c9XIhis3NbZHdnX4sYGokZEgzQ247Fd0p2sVsA30c9/984nLAYdzUYnZfpo+ac8G+chh/viorOjwbbdLKNusM7w7EAx6+CsxldwRz4J+0TrHhq82XMbWkAR1JjUEm5EwahaxqyX7FuwESbziUPFCkedg4gnTKdu7HM=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

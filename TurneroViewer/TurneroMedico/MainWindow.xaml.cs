@@ -17,6 +17,7 @@ using TurneroClassLibrary;
 using TurneroClassLibrary.entities;
 using System.Configuration;
 using TurneroAtencion2.componentes;
+using System.Collections.ObjectModel;
 
 namespace TurneroMedico
 {
@@ -28,13 +29,13 @@ namespace TurneroMedico
         private string ID_TERMINAL = "101";
         private int errorCount = 0;
         private static int maxErrorCount = 5;
-        private static int spanQuery = 1000;
-        private static int spanOnErrorQuery = 10000;
+        private static int spanQuery = 500;
+        private static int spanOnErrorQuery = 2000;
 
-        private static string emptyVal = "- --";
-
-        private long count = 0;
         DispatcherTimer queueTimer;
+
+        public ObservableCollection<Turno> listaTurnos { get; set; }
+        public ObservableCollection<ItemTurno> listaLlamados { get; set; }
 
         ServiceQuery serviceQuery;
 
@@ -47,7 +48,11 @@ namespace TurneroMedico
             serviceQuery.urlPath = ConfigManager.ReadConnectionSetting("TurneroMedico.Properties.Settings.ServicePath");
             ID_TERMINAL = ConfigManager.readStringSetting("idTerminal");
 
+            listaTurnos = new ObservableCollection<Turno>();
+            listaLlamados = new ObservableCollection<ItemTurno>();
+
             queueTimer = new DispatcherTimer();
+            NoError();
             queueTimer.Tick += new EventHandler(queueTimer_Tick);
             queueTimer.Start();
         }
@@ -55,28 +60,42 @@ namespace TurneroMedico
 
         void queueTimer_Tick(object sender, EventArgs e)
         {
-            if (lbTurnos.SelectedItem == null)
-                PopulateListTurnos();
 
-            object item = lbLlamados.SelectedItem;
+            object item = lbTurnos.SelectedItem;
+            PopulateListTurnos();
+            if (item != null)
+                findSelected2(lbTurnos, ((Turno)item).idTurno);
+
+            item = lbLlamados.SelectedItem;
             PopulateListLlamados();
             if (item != null)
-                findSelected(((ItemTurno)item).Turno.idTurno);
+                findSelected(lbLlamados, ((ItemTurno)item).Turno.idTurno);
+
+            
         }
 
-        private void findSelected(String id)
+        private void findSelected(ListBox lb, String id)
         {
-            foreach (ItemTurno item in lbLlamados.Items)
+            foreach (ItemTurno item in lb.Items)
             {
                 if (item.Turno.idTurno.Equals(id))
-                    lbLlamados.SelectedItem = item;
+                    lb.SelectedItem = item;
+            }
+        }
+
+        private void findSelected2(ListBox lb, String id)
+        {
+            foreach (Turno item in lb.Items)
+            {
+                if (item.idTurno.Equals(id))
+                    lb.SelectedItem = item;
             }
         }
 
         public void PopulateListTurnos()
         {
             Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL);
-            lbTurnos.Items.Clear();
+            listaTurnos.Clear();
 
             if (turnos != null)
             {
@@ -84,51 +103,38 @@ namespace TurneroMedico
                 {
                     foreach (Turno t in serviceQuery.ordenarTurnos(turnos.turnos))
                     {
-                            lbTurnos.Items.Add(t);
+                        listaTurnos.Add(t);
                     }
                 }
             }
+            this.DataContext = this;
         }
 
         public void PopulateListLlamados()
         {
-            Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL, "3");
-            lbLlamados.Items.Clear();
+            Turnos turnos = serviceQuery.consultarTurnosAtendidos(ID_TERMINAL);
+            listaLlamados.Clear();
 
             if (turnos != null)
             {
                 if (turnos.turnos != null)
                 {
-                    foreach (Turno t in turnos.turnos)
+                    foreach (Turno t in serviceQuery.ordenarTurnos(turnos.turnos))
                     {
-                        
-                        ItemTurno item = new ItemTurno();
+                         ItemTurno item = new ItemTurno();
                         item.Turno = t;
                         lbLlamados.Items.Add(item);
-
                     }
                 }
             }
 
-            turnos = serviceQuery.consultarTurnos(ID_TERMINAL, "4");
-
-            if (turnos != null)
-            {
-                if (turnos.turnos != null)
-                {
-                    foreach (Turno t in turnos.turnos)
-                    {
-
-                        ItemTurno item = new ItemTurno();
-                        item.Turno = t;
-                        lbLlamados.Items.Add(item);
-
-                    }
-                }
-            }
+            
+            this.DataContext = this;
         }
         private void btnAtender_Click(object sender, RoutedEventArgs e)
         {
+            if (lbLlamados.Items.Count == 1)
+                lbLlamados.SelectedItem = lbLlamados.Items[0];
             if (lbLlamados.SelectedItem != null)
             {
                 AtiendeTurno at = serviceQuery.atenderTurno(((ItemTurno)lbLlamados.SelectedItem).Turno.idTurno);
@@ -137,13 +143,20 @@ namespace TurneroMedico
 
                 lbLlamados.SelectedItem = null;
             }
+            else
+            {
+                MessageBox.Show("Debe seleccionar un turno");
+            }
+            Keyboard.Focus(lbLlamados);
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
-            Turno turno = ((ItemTurno)lbLlamados.SelectedItem).Turno;
-            if (turno != null)
+            if (lbLlamados.Items.Count == 1)
+                lbLlamados.SelectedItem = lbLlamados.Items[0];
+            if (lbLlamados.SelectedItem != null)
             {
+                Turno turno = ((ItemTurno)lbLlamados.SelectedItem).Turno;
                 if (MessageBox.Show("Va a cancelar el llamado de" + turno.nombre + ". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     CancelaLlamado t = serviceQuery.cancelarLlamado(turno.idTurno);
@@ -155,13 +168,16 @@ namespace TurneroMedico
             {
                 MessageBox.Show("Debe seleccionar un turno");
             }
+            Keyboard.Focus(lbLlamados);
         }
 
         private void btnFinalizar_Click(object sender, RoutedEventArgs e)
         {
-            Turno turno = ((ItemTurno)lbLlamados.SelectedItem).Turno;
-            if (turno != null)
+            if (lbLlamados.Items.Count == 1)
+                lbLlamados.SelectedItem = lbLlamados.Items[0];
+            if (lbLlamados.SelectedItem != null)
             {
+                Turno turno = ((ItemTurno)lbLlamados.SelectedItem).Turno;
                 if (MessageBox.Show("Va a finalizar el turno de" + turno.nombre + ". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     FinalizaTurno t = serviceQuery.finalizaTurno(turno.idTurno);
@@ -173,10 +189,13 @@ namespace TurneroMedico
             {
                 MessageBox.Show("Debe seleccionar un turno");
             }
+            Keyboard.Focus(lbLlamados);
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
+            if (lbTurnos.Items.Count == 1)
+                lbTurnos.SelectedItem = lbLlamados.Items[0];
             if (lbTurnos.SelectedItem != null)
             {
                 Turno t = (Turno)lbTurnos.SelectedItem;
@@ -185,13 +204,15 @@ namespace TurneroMedico
                 if (llamado.resultado == "error")
                 {
                     MessageBox.Show("Se ha producido un error. Intente nuevamente");
-                    //lbLlamados.Items.Add(t);
                 }
-                //else
-                //    MessageBox.Show("Llamando a : " + t.ToString());
-                lbTurnos.SelectedItem = null;
 
+                lbTurnos.SelectedItem = null;
             }
+            else
+            {
+                MessageBox.Show("Debe seleccionar un turno");
+            }
+            Keyboard.Focus(lbTurnos);
         }
 
         private void Error()

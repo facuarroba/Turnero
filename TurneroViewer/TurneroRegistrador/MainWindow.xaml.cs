@@ -117,9 +117,14 @@ namespace TurneroRegistrador
                     {
                         int i = Convert.ToInt16(registro.msg);
                         labelNumber.Content = selCola.tipoAtencion + " " + i.ToString("00");
+                        txtHC.Text = "";
+                        txtName.Text = "";
                     }
-                    txtHC.Text = "";
-                    txtName.Text = "";
+                    else
+                    {
+                        MessageBox.Show("Error al intentar registrar el turno. Msg: " + registro.msg); 
+                    }
+                    Keyboard.Focus(txtName);
                 }
             }            
             

@@ -39,9 +39,9 @@
                 </ListBox>
 
                 <Label Grid.Column="2">Turnos registrados</Label>
-                <ListBox Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Name="lbTurnos" Margin="4" Background="#FFFFFBFB" BorderBrush="{x:Null}" ></ListBox>
-
-                <Button Name="btnLlamar" Grid.Column="3" Grid.Row="2" Style="{StaticResource buttonStyle}" Height="Auto" FontWeight="Bold" Click="Button_Click_3">Llamar</Button>
+                <ListBox Grid.Column="2" ItemsSource="{Binding listaTurnos}" Grid.Row="1" Grid.RowSpan="2" Name="lbTurnos" Margin="4" Background="#FFFFFBFB" BorderBrush="{x:Null}" ></ListBox>
+                <Button Name="btnLlamarSiguiente"  Grid.Column="3" Height="30" Grid.Row="1" Style="{StaticResource buttonStyle}" VerticalAlignment="Bottom"  FontWeight="Bold" Click="btnLlamarSiguiente_Click" >Llamar siguiente</Button>
+                <Button Name="btnLlamar"  Grid.Column="3" Grid.Row="2" Style="{StaticResource buttonStyle}" Height="Auto" FontWeight="Bold" Click="Button_Click_3">Llamar</Button>
             </Grid>
         </Border>
 
@@ -63,7 +63,7 @@
                     </Grid.RowDefinitions>
 
                     <Label>Turno llamado</Label>
-                    <ListBox Grid.Row="1" Grid.RowSpan="2" Margin="4,4,10,4" Name="lbLlamados" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="#FFFFFBFB"></ListBox>
+                    <ListBox Grid.Row="1" Grid.RowSpan="2" ItemsSource="{Binding listaLlamados}" Margin="4,4,10,4" Name="lbLlamados" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="#FFFFFBFB"></ListBox>
 
                     <StackPanel Grid.Row="1" Grid.RowSpan="3" Margin="5" Grid.Column="1">
                         <Button Name="btnAtender" Height="30" Click="btnAtender_Click" Style="{StaticResource buttonStyle}">Atender</Button>
@@ -89,10 +89,11 @@
 
                         <Label Grid.Column="0" Grid.Row="1">Tipos de atención</Label>
                         <ListBox x:Name="listColas" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="4" BorderBrush="{x:Null}" ItemsSource="{Binding listaCajasDerivar}" Background="#FFFFFBFB"></ListBox>
-
                         <Button Grid.Column="1" Grid.Row="3" Style="{StaticResource buttonStyle}" Click="Button_Click">Registrar</Button>
-
-
+                        
+                        <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource buttonStyle}" Click="Button_Click_1" Visibility="Hidden">Editar</Button>                        
+                        <TextBox Name="txtName" Margin="2" Visibility="Hidden"></TextBox>
+                        <TextBox Name="txtHC" Grid.Column="1" Visibility="Hidden" Margin="2"></TextBox>
                     </Grid>
                 </GroupBox>
             </Grid>

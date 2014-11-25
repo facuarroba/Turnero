@@ -7,11 +7,11 @@ using System.Windows;
 // La información general sobre un ensamblado se controla mediante el siguiente 
 // conjunto de atributos. Cambie estos atributos para modificar la información
 // asociada con un ensamblado.
-[assembly: AssemblyTitle("TurneroAtencion2")]
+[assembly: AssemblyTitle("Turnero Atencion")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TurneroAtencion2")]
+[assembly: AssemblyCompany("Ikrit Consultora")]
+[assembly: AssemblyProduct("TurneroAtencion")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Windows;
 // Si establece ComVisible como false, los tipos de este ensamblado no estarán visibles 
 // para los componentes COM.  Si necesita obtener acceso a un tipo de este ensamblado desde 
 // COM, establezca el atributo ComVisible como true en este tipo.
-[assembly: ComVisible(false)]
+[assembly: ComVisible(true)]
 
 //Para comenzar a compilar aplicaciones que se puedan traducir, establezca 
 //<UICulture>CultureYouAreCodingWith</UICulture> en el archivo .csproj

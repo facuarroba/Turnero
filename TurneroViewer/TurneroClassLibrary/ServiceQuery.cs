@@ -123,6 +123,45 @@ namespace TurneroClassLibrary
             
         }
 
+
+        public Turnos consultarTurnosAtendidos(String idTerminal)
+        {
+            String ServiceName = "getLlamadosAtendidos.jsp";
+            String XML = "";
+            Turnos turnos;
+            String URL_parameters = "idTerminal=" + idTerminal;
+            String URL = URL_PATH + ServiceName + "?" + URL_parameters;
+
+            var client = new RestClient(SERVER);
+            client.Timeout = 1000;
+            logger.Info(ServiceName + " - URL: " + URL);
+            try
+            {
+                RestRequest request = new RestRequest(URL, Method.GET);
+
+                IRestResponse queryResult = client.Execute(request);
+
+                XML = queryResult.Content;
+
+                logger.Info(ServiceName + " - Parametros: idTerminal = " + idTerminal + " - Respuesta: " + XML);
+                XmlSerializer mySerializer = new XmlSerializer(typeof(Turnos));
+                using (TextReader reader = new StringReader(XML))
+                {
+                    turnos = (Turnos)mySerializer.Deserialize(reader);
+                }
+                return turnos;
+            }
+            catch (Exception e)
+            {
+                Turnos error = new Turnos();
+                error.resultado = "error";
+                error.msg = "internal error: " + e.Message;
+                logger.Error(ServiceName + " - Msg: " + e.Message);
+                return error;
+            }
+
+        }
+
         public List<Turno> ordenarTurnos(Turno[] lista)
         {
             List<Turno> res = lista.OrderBy(o => o.idTurnoInt).ToList();
