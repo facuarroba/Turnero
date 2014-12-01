@@ -37,7 +37,9 @@ namespace TurneroClassLibrary.entities
 
         public String toString()
         {
-            String res = "T: " + temperatura.toC() + "/ H: " + humedad.valor + humedad.unidad;
+            String res="";
+            if((temperatura != null)&&(humedad!=null))
+                res = "T: " + temperatura.toC() + "/ H: " + humedad.valor + humedad.unidad;
             return res;
         }
 

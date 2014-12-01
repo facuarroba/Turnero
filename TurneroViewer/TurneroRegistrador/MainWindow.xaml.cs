@@ -41,8 +41,8 @@ namespace TurneroRegistrador
             InitializeComponent();
 
             serviceQuery = ServiceQuery.Instance;
-            serviceQuery.server = ConfigManager.ReadConnectionSetting("TurneroRegistrador.Properties.Settings.Servidor");
-            serviceQuery.urlPath = ConfigManager.ReadConnectionSetting("TurneroRegistrador.Properties.Settings.ServicePath");
+            serviceQuery.server = ConfigManager.ReadConnectionSetting("TurneroRegistrador","Servidor");
+            serviceQuery.urlPath = ConfigManager.ReadConnectionSetting("TurneroRegistrador", "ServicePath");
             ID_TERMINAL = ConfigManager.readStringSetting("idTerminal");
 
             queueTimer = new DispatcherTimer();

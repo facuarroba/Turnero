@@ -22,7 +22,7 @@ namespace TurneroClassLibrary
         private static ServiceQuery instance;
 
         private NLogLogger logger;
-        private ServiceQuery() 
+        public ServiceQuery() 
         {
             logger = new NLogLogger();
         }

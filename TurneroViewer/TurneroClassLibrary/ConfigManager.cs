@@ -8,10 +8,11 @@ namespace TurneroClassLibrary
 {
     public static class ConfigManager
     {
-        public static String ReadConnectionSetting(string key)
+        public static String ReadConnectionSetting(string AppName,string keyName)
         {
             try
             {
+                string key = AppName + ".Properties.Settings." + keyName;
                 string result = ConfigurationManager.ConnectionStrings[key].ToString();
                 return result;
             }

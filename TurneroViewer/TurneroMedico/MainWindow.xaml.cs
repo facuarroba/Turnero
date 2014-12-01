@@ -18,21 +18,22 @@ using TurneroClassLibrary.entities;
 using System.Configuration;
 using TurneroAtencion2.componentes;
 using System.Collections.ObjectModel;
+using TurneroCustomControlLibrary;
 
 namespace TurneroMedico
 {
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
-     public partial class MainWindow : Window
+     public partial class MainWindow : WindowBase
     {
-        private string ID_TERMINAL = "101";
-        private int errorCount = 0;
-        private static int maxErrorCount = 5;
-        private static int spanQuery = 500;
-        private static int spanOnErrorQuery = 2000;
+        //private string ID_TERMINAL = "101";
+        //private int errorCount = 0;
+        //private static int maxErrorCount = 5;
+        //private static int spanQuery = 500;
+        //private static int spanOnErrorQuery = 2000;
 
-        DispatcherTimer queueTimer;
+        //DispatcherTimer queueTimer;
 
         public ObservableCollection<Turno> listaTurnos { get; set; }
         public ObservableCollection<ItemTurno> listaLlamados { get; set; }
@@ -43,22 +44,25 @@ namespace TurneroMedico
         {
             InitializeComponent();
 
+            this.AppName = "TurneroMedico";
             serviceQuery = ServiceQuery.Instance;
-            serviceQuery.server = ConfigManager.ReadConnectionSetting("TurneroMedico.Properties.Settings.Servidor");
-            serviceQuery.urlPath = ConfigManager.ReadConnectionSetting("TurneroMedico.Properties.Settings.ServicePath");
-            ID_TERMINAL = ConfigManager.readStringSetting("idTerminal");
+            
 
             listaTurnos = new ObservableCollection<Turno>();
             listaLlamados = new ObservableCollection<ItemTurno>();
 
-            queueTimer = new DispatcherTimer();
-            NoError();
-            queueTimer.Tick += new EventHandler(queueTimer_Tick);
-            queueTimer.Start();
+            setTimer(new EventHandler(updateScreen));
+            this.Timer.Start();
         }
 
+        private void loadSettings()
+        {
+            this.ServiceQuery.server = ConfigManager.ReadConnectionSetting(AppName, "Servidor");
+            this.ServiceQuery.urlPath = ConfigManager.ReadConnectionSetting(AppName,"ServicePath");
+            this.IdTerminal = ConfigManager.readStringSetting("idTerminal");
+        }
 
-        void queueTimer_Tick(object sender, EventArgs e)
+        void updateScreen(object sender, EventArgs e)
         {
 
             object item = lbTurnos.SelectedItem;
@@ -70,8 +74,7 @@ namespace TurneroMedico
             PopulateListLlamados();
             if (item != null)
                 findSelected(lbLlamados, ((ItemTurno)item).Turno.idTurno);
-
-            
+           
         }
 
         private void findSelected(ListBox lb, String id)
@@ -94,7 +97,7 @@ namespace TurneroMedico
 
         public void PopulateListTurnos()
         {
-            Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL);
+            Turnos turnos = serviceQuery.consultarTurnos(this.IdTerminal);
             listaTurnos.Clear();
 
             if (turnos != null)
@@ -112,7 +115,7 @@ namespace TurneroMedico
 
         public void PopulateListLlamados()
         {
-            Turnos turnos = serviceQuery.consultarTurnosAtendidos(ID_TERMINAL);
+            Turnos turnos = serviceQuery.consultarTurnosAtendidos(this.IdTerminal);
             listaLlamados.Clear();
 
             if (turnos != null)
@@ -200,7 +203,7 @@ namespace TurneroMedico
             {
                 Turno t = (Turno)lbTurnos.SelectedItem;
 
-                LlamaTurno llamado = serviceQuery.llamarTurno(t.idTurno, ID_TERMINAL);
+                LlamaTurno llamado = serviceQuery.llamarTurno(t.idTurno, this.IdTerminal);
                 if (llamado.resultado == "error")
                 {
                     MessageBox.Show("Se ha producido un error. Intente nuevamente");
@@ -215,20 +218,5 @@ namespace TurneroMedico
             Keyboard.Focus(lbTurnos);
         }
 
-        private void Error()
-        {
-            errorCount++;
-            if (errorCount > maxErrorCount)
-            {
-                queueTimer.Interval = TimeSpan.FromMilliseconds(spanOnErrorQuery);
-            }
-        }
-
-        private void NoError()
-        {
-            errorCount = 0;
-            queueTimer.Interval = TimeSpan.FromMilliseconds(spanQuery);
-        }
-        
     }
 }

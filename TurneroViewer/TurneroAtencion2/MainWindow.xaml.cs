@@ -18,24 +18,17 @@ using System.Windows.Threading;
 using TurneroAtencion2.componentes;
 using TurneroClassLibrary;
 using TurneroClassLibrary.entities;
+using TurneroCustomControlLibrary;
 
 namespace TurneroAtencion2
 {
     /// <summary>
     /// Lógica de interacción para MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : WindowBase
     {
-        private static String ID_TERMINAL = "1";
-
-        private int errorCount = 0;
-        private static int maxErrorCount = 5;
-        private static int spanQuery = 500;
-        private static int spanOnErrorQuery = 60000;
-        DispatcherTimer timer;
-
         private Turno turnoDerivar = null;
-        private ServiceQuery serviceQuery;
+        
 
         public ObservableCollection<checkItemCaja> listaCajas { get; set; }
         public ObservableCollection<Cola> listaCajasDerivar { get; set; }
@@ -47,29 +40,24 @@ namespace TurneroAtencion2
         {
             InitializeComponent();
             
-            serviceQuery = ServiceQuery.Instance;
-            serviceQuery.server = ConfigManager.ReadConnectionSetting("TurneroAtencion.Properties.Settings.Servidor");
-            serviceQuery.urlPath = ConfigManager.ReadConnectionSetting("TurneroAtencion.Properties.Settings.ServicePath");
-            ID_TERMINAL = ConfigManager.readStringSetting("idTerminal");
+            this.AppName="TurneroAtencion";
+            loadSettings();
 
             listaTurnos = new ObservableCollection<Turno>();
             listaLlamados = new ObservableCollection<ItemTurno>();
+            listaCajasDerivar = new ObservableCollection<Cola>();
 
             PopulateListCajas();
-            PopulateListCajasDerivacion();
-            PopulateListTurnos();
-            PopulateListLlamados();
+            PopulateListCajasDerivacion(listaCajasDerivar,"E");
 
-            timer = new DispatcherTimer();
-            NoError();
-            timer.Tick += new EventHandler(timer_Tick);
-            timer.Start();
+            setTimer(new EventHandler(updateScreen));
+            this.Timer.Start();
         }
 
-        void timer_Tick(object sender, EventArgs e)
+        void updateScreen(object sender, EventArgs e)
         {
             object item = lbTurnos.SelectedItem;
-                PopulateListTurnos();
+            PopulateListTurnos();
             if(item !=null)
                 findSelected2(lbTurnos, ((Turno)item).idTurno);
 
@@ -100,14 +88,14 @@ namespace TurneroAtencion2
 
         public void PopulateListTurnos()
         {
-            Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL);
+            Turnos turnos = this.ServiceQuery.consultarTurnos(this.IdTerminal);
             listaTurnos.Clear();
 
             if (turnos != null)
             {
                 if (turnos.turnos != null)
                 {
-                    foreach (Turno t in serviceQuery.ordenarTurnos(turnos.turnos))
+                    foreach (Turno t in this.ServiceQuery.ordenarTurnos(turnos.turnos))
                     {
                         if (checkTurnoCaja(t))
                             listaTurnos.Add(t);
@@ -119,7 +107,7 @@ namespace TurneroAtencion2
 
         public void PopulateListLlamados()
         {
-            Turnos turnos = serviceQuery.consultarTurnosAtendidos(ID_TERMINAL);
+            Turnos turnos = this.ServiceQuery.consultarTurnosAtendidos(this.IdTerminal);
 
             listaLlamados.Clear();
 
@@ -127,7 +115,7 @@ namespace TurneroAtencion2
             {
                 if (turnos.turnos != null)
                 {
-                    foreach (Turno t in serviceQuery.ordenarTurnos(turnos.turnos))
+                    foreach (Turno t in this.ServiceQuery.ordenarTurnos(turnos.turnos))
                     {
                         if (checkTurnoCaja(t))
                         {
@@ -138,25 +126,6 @@ namespace TurneroAtencion2
                     }
                 }
             }
-
-            //turnos = serviceQuery.consultarTurnos(ID_TERMINAL, "4");
-
-            //if (turnos != null)
-            //{
-            //    if (turnos.turnos != null)
-            //    {
-            //        foreach (Turno t in turnos.turnos)
-            //        {
-            //            if (checkTurnoCaja(t))
-            //            {
-            //                ItemTurno item = new ItemTurno();
-            //                item.Turno = t;
-            //                listaLlamados.Add(item);
-            //            }
-            //        }
-            //    }
-            //}
-
             this.DataContext = this;
         }
 
@@ -177,7 +146,7 @@ namespace TurneroAtencion2
         public void PopulateListCajas()
         {
             listaCajas = new ObservableCollection<checkItemCaja>();
-            Colas colas = serviceQuery.getColas(ID_TERMINAL,"L");
+            Colas colas = this.ServiceQuery.getColas(this.IdTerminal, "L");
             if (colas.colas != null)
             {
                 foreach (Cola c in colas.colas)
@@ -188,15 +157,15 @@ namespace TurneroAtencion2
             this.DataContext = this;
         }
 
-        public void PopulateListCajasDerivacion()
+        public void PopulateListCajasDerivacion(ObservableCollection<Cola> listaColas, string permiso)
         {
-            listaCajasDerivar = new ObservableCollection<Cola>();
-            Colas colas = serviceQuery.getColas(ID_TERMINAL, "E");
+            listaColas.Clear();
+            Colas colas = this.ServiceQuery.getColas(this.IdTerminal, permiso);
             if (colas.colas != null)
             {
                 foreach (Cola c in colas.colas)
                 {
-                    listaCajasDerivar.Add(c);
+                    listaColas.Add(c);
                 }
             }
             this.DataContext = this;
@@ -213,21 +182,7 @@ namespace TurneroAtencion2
 
         }
 
-        private void Error()
-        {
-            errorCount++;
-            if (errorCount > maxErrorCount)
-            {
-                timer.Interval = TimeSpan.FromMilliseconds(spanOnErrorQuery);
-            }
-        }
-
-        private void NoError()
-        {
-            errorCount = 0;
-            timer.Interval = TimeSpan.FromMilliseconds(spanQuery);
-        }
-
+       
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             if (lbTurnos.Items.Count == 1)
@@ -241,7 +196,7 @@ namespace TurneroAtencion2
                 lbLlamados.SelectedItem = lbLlamados.Items[0];
             if (lbLlamados.SelectedItem != null)
             {
-                AtiendeTurno at = serviceQuery.atenderTurno(((ItemTurno)lbLlamados.SelectedItem).Turno.idTurno);
+                AtiendeTurno at = this.ServiceQuery.atenderTurno(((ItemTurno)lbLlamados.SelectedItem).Turno.idTurno);
                 if (at.resultado == "error")
                     MessageBox.Show(at.msg);
 
@@ -266,7 +221,7 @@ namespace TurneroAtencion2
             {
                 if (MessageBox.Show("Va a finalizar el turno de" + turno.nombre + ". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    FinalizaTurno t = serviceQuery.finalizaTurno(turno.idTurno);
+                    FinalizaTurno t = this.ServiceQuery.finalizaTurno(turno.idTurno);
                     if (t.resultado == "error")
                         MessageBox.Show(t.msg);
                 }
@@ -332,10 +287,10 @@ namespace TurneroAtencion2
 
             if (MessageBox.Show("Va a agregar el turno de "+ turnoDerivar.nombre + " a la espera de "+ selCola.ToString() +". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
-                FinalizaTurno ft = serviceQuery.finalizaTurno(turnoDerivar.idTurno);
+                FinalizaTurno ft = this.ServiceQuery.finalizaTurno(turnoDerivar.idTurno);
                 if (ft.resultado.Equals("ok"))
                 {
-                    registro = serviceQuery.registrarTurno(selCola, turnoDerivar.hc, turnoDerivar.nombre);
+                    registro = this.ServiceQuery.registrarTurno(selCola, turnoDerivar.hc, turnoDerivar.nombre);
                     if (registro.resultado == "error")
                     {
 
@@ -375,7 +330,7 @@ namespace TurneroAtencion2
             {
                 if (MessageBox.Show("Va a cancelar el llamado de " + turno.nombre + ". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
-                    CancelaLlamado t = serviceQuery.cancelarLlamado(turno.idTurno);
+                    CancelaLlamado t = this.ServiceQuery.cancelarLlamado(turno.idTurno);
                     if (t.resultado == "error")
                         MessageBox.Show(t.msg);
                 }
@@ -433,7 +388,7 @@ namespace TurneroAtencion2
             {
                 Turno t = (Turno)lbTurnos.SelectedItem;
 
-                LlamaTurno llamado = serviceQuery.llamarTurno(t.idTurno, ID_TERMINAL);
+                LlamaTurno llamado = this.ServiceQuery.llamarTurno(t.idTurno, this.IdTerminal);
                 if (llamado.resultado == "error")
                 {
                     MessageBox.Show("Se ha producido un error. Intente nuevamente");

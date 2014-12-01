@@ -24,6 +24,8 @@ using System.Media;
 using System.Configuration;
 using Vlc.DotNet.Wpf;
 using Vlc.DotNet.Core.Medias;
+using TurneroCustomControlLibrary;
+
 
 
 namespace TurneroViewer
@@ -31,92 +33,66 @@ namespace TurneroViewer
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window 
+    public partial class MainWindow : WindowBase 
     {
         double count = 0;
-        private string ID_TERMINAL = "901";
-        private string TXT_MSG = "";
- 
-        private static int numbersRefresh = 500;
-        
-        DispatcherTimer queueTimer;
-
-        private ServiceQuery serviceQuery;
-
         private Turnos buffer=null;
-        ILogger _logger;
+        private string videoPath;
+        private string showBar = "1";
+        private string climaIconosPath;
+        private string soundPath;
+
         public MainWindow()
         {
             InitializeComponent();
-            this.Cursor = Cursors.None;
 
-            string showBar = ConfigManager.readStringSetting("showBar");
-            if (showBar.Equals("1"))
-                this.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
-            else
-                this.WindowStyle = System.Windows.WindowStyle.None;
+            AppName = "TurneroViewer";
+            loadSettings();
+            this.Cursor = Cursors.None;
+            
+            //if (showBar.Equals("1"))
+            //    this.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
+            //else
+            //    this.WindowStyle = System.Windows.WindowStyle.None;
 
             this.DataContext = this;
 
-            serviceQuery = ServiceQuery.Instance;
-            serviceQuery.server = ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.Servidor");
-            serviceQuery.urlPath = ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.ServicePath");
-            serviceQuery.weatherServer = ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.ClimaServer");
-            serviceQuery.weatherPath = ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.ClimaPath");
-
-            ID_TERMINAL = ConfigManager.readStringSetting("idTerminal");
-            TXT_MSG = ConfigManager.readStringSetting("msg");
-
-            DispatcherTimer timer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
+            DispatcherTimer horaTimer = new DispatcherTimer(new TimeSpan(0, 0, 1), DispatcherPriority.Normal, delegate
             {
                 this.labelHora.Content = DateTime.Now.ToString("dd/MM/yyyy HH:mm    ");
             }, this.Dispatcher);
 
-            NLogLogger.ConfigureLogger("C:\\","Display");
-            _logger = new NLogLogger();
-            _logger.Info("Application starting.");
+            setTimer(new EventHandler(updateScreen));
+            Timer.Start();
 
-            queueTimer = new DispatcherTimer();
-            queueTimer.Interval = TimeSpan.FromMilliseconds(numbersRefresh);
-            queueTimer.Tick += new EventHandler(queueTimer_Tick);
-            queueTimer.Start();
-        }
-
-        void queueTimer_Tick(object sender, EventArgs e)
-        {
-            UpdateScreen();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
             setVideo();
             //setTV();
-            UpdateScreen();
         }
 
-        private void setVideo()
+        void loadSettings()
         {
-            this.mediaPlayer.Source = new Uri(ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.VideoPath"), UriKind.RelativeOrAbsolute);
-            this.mediaPlayer.Play();
+            this.ServiceQuery.server = ConfigManager.ReadConnectionSetting(AppName, "Servidor");
+            this.ServiceQuery.urlPath = ConfigManager.ReadConnectionSetting(AppName, "ServicePath");
+            this.ServiceQuery.weatherServer = ConfigManager.ReadConnectionSetting(AppName, "ClimaServer");
+            this.ServiceQuery.weatherPath = ConfigManager.ReadConnectionSetting(AppName, "ClimaPath");
+            videoPath = ConfigManager.ReadConnectionSetting(AppName, "VideoPath");
+
+            this.IdTerminal = ConfigManager.readStringSetting("idTerminal");
+            showBar = ConfigManager.readStringSetting("showBar");
+
+            climaIconosPath = "pack://application:,,,/TurneroViewer;component/imagenes/iconos/";
+            soundPath = "sounds/line.wav";
         }
 
-
-        private void mediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        void updateScreen(object sender, EventArgs e)
         {
-            this.mediaPlayer.Position = new TimeSpan(0, 0, 1);
-            this.mediaPlayer.Play();
-        }
-
-        
-        private void UpdateScreen()
-        {
-            if (count % 3600 == 0)
+            if (count % (2 * 60 * 30) == 0)
             {
-                CurrentWeather clima = serviceQuery.getClima();
+                CurrentWeather clima = this.ServiceQuery.getClima();
                 if (clima != null)
                 {
                     tempLabel.Content = clima.toString();
-                    BitmapImage logo = new BitmapImage(new Uri("pack://application:,,,/TurneroViewer;component/imagenes/iconos/" + clima.clima.icono + ".png", UriKind.RelativeOrAbsolute));
+                    BitmapImage logo = new BitmapImage(new Uri(climaIconosPath + clima.clima.icono + ".png", UriKind.RelativeOrAbsolute));
                     icono.Source = logo;
                 }
             }
@@ -124,51 +100,61 @@ namespace TurneroViewer
 
             if (count % 2 == 0)
             {
-                Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL,"3");
-                if (turnos != null)
-                {
-                    UpdateNumeros(turnos);
-                }
+                updateLlamados();
+                updateAtendidos();
             }
         }
 
-        private void UpdateNumeros(Turnos turnos)
+        private void setVideo()
         {
-            List<int> cambios = new List<int>();
-            if (turnos.resultado == "ok")
-            {
-                this.numbersGrid.Children.Clear();
-                if (turnos.cantidad != "0")
-                    cambios = compareList(turnos);
-                for (int i = 0; i < turnos.count; i++)
-                {
-                    Turno t = turnos.turnos[i];
-                    var d = new DisplayTipo4(t);
-                    if (cambios.Contains(Convert.ToUInt16(t.idTurno)))
-                        d.Background = Brushes.GreenYellow;
-                    Grid.SetRow(d, i);
-                    this.numbersGrid.Children.Add(d);
-                }
-                if (cambios.Count > 0)
-                    PlaySound();
-                buffer = turnos;
-                queueTimer.Interval = TimeSpan.FromMilliseconds(numbersRefresh);
+            this.mediaPlayer.Source = new Uri((videoPath), UriKind.RelativeOrAbsolute);
+            this.mediaPlayer.Play();
+        }
 
-                updateAtendidos();
-            }
-            else
+        private void mediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            this.mediaPlayer.Position = new TimeSpan(0, 0, 1);
+            this.mediaPlayer.Play();
+        }
+
+        private void updateLlamados()
+        {
+            Turnos turnos = this.ServiceQuery.consultarTurnos(this.IdTerminal, "3");
+            if (turnos != null)
             {
-                queueTimer.Interval = queueTimer.Interval + queueTimer.Interval;
+                List<int> cambios = new List<int>();
+                if (turnos.resultado == "ok")
+                {
+                    onSuccess();
+                    this.numbersGrid.Children.Clear();
+                    if (turnos.cantidad != "0")
+                        cambios = compareList(turnos);
+                    
+                    for (int i = 0; i < turnos.count; i++)
+                    {
+                        Turno t = turnos.turnos[i];
+                        var d = new DisplayTipo4(t);
+                        if (cambios.Contains(Convert.ToUInt16(t.idTurno)))
+                            d.Background = Brushes.GreenYellow;
+                        Grid.SetRow(d, i);
+                        this.numbersGrid.Children.Add(d);
+                    }
+                    if (cambios.Count > 0)
+                        playSound(soundPath);
+                    buffer = turnos;
+                }
+                else
+                {
+                    onError();
+                }
             }
         }
 
         private void updateAtendidos()
         {
-            Turnos turnos = serviceQuery.consultarTurnos(ID_TERMINAL, "4");
+            Turnos turnos = this.ServiceQuery.consultarTurnos(this.IdTerminal, "4");
 
             atendidosGrid.Children.Clear();
-            
-            List<int> cambios = new List<int>();
             if (turnos.resultado == "ok")
             {
                 for (int i = 0; i < turnos.count; i++)
@@ -216,63 +202,64 @@ namespace TurneroViewer
             return ids;
         }
 
-        private void PlaySound()
-        {
-            SoundPlayer player = new SoundPlayer("sounds/line.wav");
-            player.Play();
-        }
 
         private void setTV()
         {
+            try
+            {
+                VlcControl vlcPlayer = new VlcControl();
 
-            VlcControl vlcPlayer = new VlcControl();
+                multimediaBorder.Child = vlcPlayer;
 
-            multimediaBorder.Child = vlcPlayer;
+                // WPF dark magic ahead: run-time interpreted data binding
+                // When the VLC video changes (is loaded for example), the grid displays the new video image
+                Binding vlcBinding = new Binding("VideoSource");
+                vlcBinding.Source = vlcPlayer;
 
-            // WPF dark magic ahead: run-time interpreted data binding
-            // When the VLC video changes (is loaded for example), the grid displays the new video image
-            Binding vlcBinding = new Binding("VideoSource");
-            vlcBinding.Source = vlcPlayer;
+                // VLC paints into a WPF image
+                Image vImage = new Image();
+                vImage.SetBinding(Image.SourceProperty, vlcBinding);
 
-            // VLC paints into a WPF image
-            Image vImage = new Image();
-            vImage.SetBinding(Image.SourceProperty, vlcBinding);
+                // The WPF image is used by a WPF brush
+                VisualBrush vBrush = new VisualBrush();
+                vBrush.TileMode = TileMode.None;
+                vBrush.Stretch = Stretch.Uniform;
+                vBrush.Visual = vImage;
 
-            // The WPF image is used by a WPF brush
-            VisualBrush vBrush = new VisualBrush();
-            vBrush.TileMode = TileMode.None;
-            vBrush.Stretch = Stretch.Uniform;
-            vBrush.Visual = vImage;
+                // The WPF brush is used by the grid element background
+                multimediaBorder.Background = vBrush;
 
-            // The WPF brush is used by the grid element background
-            multimediaBorder.Background = vBrush;
+                //TELEFE HD: rtmp://sl100tb.cxnlive.com/live/telefe.stream 
+                //EL TRECE HD: rtsp://stream.eltrecetv.com.ar/live13/13tv/13tv1 
+                //AMERICA TV HD: rtmp://sl100tb.cxnlive.com/live/america.stream 
+                //CANAL 9 HD: rtmp://sl100tb.cxnlive.com/live/canal9.stream 
+                //TV PUBLICA HD: rtmp://sl100tb.cxnlive.com/live/tvpublica.stream 
+                //TyC Sports HD: rtmp://sl100tb.cxnlive.com/live/tyc.stream 
+                //TN HD: rtsp://stream.tn.com.ar/live/tnhd1 
+                //Canal 26 HD: rtsp://live-edge01.telecentro.net.ar:80/live/26hd-360 
+                //Deportv hd: rtmp://sl100tb.cxnlive.com/live/deportv.stream 
+                //Magazine TV: rtsp://stream.mgzn.tv/live/mgzntv/mgzntv 
+                //FOX SPORT: rtmp://wdc.cxnlive.com/live/foxsd.stream 
+                //ESPN: rtmp://wdc.cxnlive.com/live/espn.stream 
+                //CRONICA TV: rtmp://wdc.cxnlive.com/live/cronica.stream 
+                //CANAL 22 Mexico: rtmp://origen.cloudapp.net/live/envivopc
+                //LATINO:VTV URUGUAY rtmp://sl100tb.cxnlive.com/live/vtv.stream 
+                //LATINO:VTV+ URUGUAY rtmp://sl100tb.cxnlive.com/live/vtvmas.stream 
+                //LATINO:MONTECARLO URUGUAY HD rtmp://sl100tb.cxnlive.com/live/montecarlo.stream 
+                //LATINO:CANAL 10 URUGUAY HD rtmp://sl100tb.cxnlive.com/live/canal10.stream 
+                //LATINO:TELEDOCE URUGUAY HD rtmp://sl100tb.cxnlive.com/live/teledoce.stream 
+                //VTV uruguay (futbol local - Seleccion): rtmp://sl100tb.cxnlive.com/live//vtv.stream 
+                //Deportv HD: rtmp://sl100tb.cxnlive.com/live/deportv.stream 
+                //America TV: rtmp://wdc.cxnlive.com/live/americasd.stream 
+                //Q musica: "mms://streamqm.uigc.net/qmusica"
+                var media1 = new LocationMedia("rtsp://stream.tn.com.ar/live/tnhd1");
 
-            //TELEFE HD: rtmp://sl100tb.cxnlive.com/live/telefe.stream 
-            //EL TRECE HD: rtsp://stream.eltrecetv.com.ar/live13/13tv/13tv1 
-            //AMERICA TV HD: rtmp://sl100tb.cxnlive.com/live/america.stream 
-            //CANAL 9 HD: rtmp://sl100tb.cxnlive.com/live/canal9.stream 
-            //TV PUBLICA HD: rtmp://sl100tb.cxnlive.com/live/tvpublica.stream 
-            //TyC Sports HD: rtmp://sl100tb.cxnlive.com/live/tyc.stream 
-            //TN HD: rtsp://stream.tn.com.ar/live/tnhd1 
-            //Canal 26 HD: rtsp://live-edge01.telecentro.net.ar:80/live/26hd-360 
-            //Deportv hd: rtmp://sl100tb.cxnlive.com/live/deportv.stream 
-            //Magazine TV: rtsp://stream.mgzn.tv/live/mgzntv/mgzntv 
-            //FOX SPORT: rtmp://wdc.cxnlive.com/live/foxsd.stream 
-            //ESPN: rtmp://wdc.cxnlive.com/live/espn.stream 
-            //CRONICA TV: rtmp://wdc.cxnlive.com/live/cronica.stream 
-            //CANAL 22 Mexico: rtmp://origen.cloudapp.net/live/envivopc
-            //LATINO:VTV URUGUAY rtmp://sl100tb.cxnlive.com/live/vtv.stream 
-            //LATINO:VTV+ URUGUAY rtmp://sl100tb.cxnlive.com/live/vtvmas.stream 
-            //LATINO:MONTECARLO URUGUAY HD rtmp://sl100tb.cxnlive.com/live/montecarlo.stream 
-            //LATINO:CANAL 10 URUGUAY HD rtmp://sl100tb.cxnlive.com/live/canal10.stream 
-            //LATINO:TELEDOCE URUGUAY HD rtmp://sl100tb.cxnlive.com/live/teledoce.stream 
-            //VTV uruguay (futbol local - Seleccion): rtmp://sl100tb.cxnlive.com/live//vtv.stream 
-            //Deportv HD: rtmp://sl100tb.cxnlive.com/live/deportv.stream 
-            //America TV: rtmp://wdc.cxnlive.com/live/americasd.stream 
-            //Q musica: "mms://streamqm.uigc.net/qmusica"
-            var media1 = new LocationMedia("rtsp://stream.tn.com.ar/live/tnhd1");
-
-            vlcPlayer.Media = media1;
+                vlcPlayer.Media = media1;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error instanciando VLC");
+            }
         }
     }
 }

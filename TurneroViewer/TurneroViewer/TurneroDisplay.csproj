@@ -103,62 +103,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="componentes\DisplaySlim.xaml.cs">
-      <DependentUpon>DisplaySlim.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="componentes\DisplayTipo4.xaml.cs">
-      <DependentUpon>DisplayTipo4.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="componentes\DisplayTipo3.xaml.cs">
-      <DependentUpon>DisplayTipo3.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="componentes\animations\DripAnimation.xaml.cs">
-      <DependentUpon>DripAnimation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="componentes\animations\MarqueeText.xaml.cs">
-      <DependentUpon>MarqueeText.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="componentes\animations\RollAnimation.xaml.cs">
-      <DependentUpon>RollAnimation.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="componentes\DisplayTipo1.xaml.cs">
-      <DependentUpon>DisplayTipo1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="componentes\DisplayTipo2.xaml.cs">
-      <DependentUpon>DisplayTipo2.xaml</DependentUpon>
-    </Compile>
-    <Page Include="componentes\DisplaySlim.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="componentes\DisplayTipo4.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="componentes\DisplayTipo3.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="componentes\animations\DripAnimation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="componentes\animations\MarqueeText.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="componentes\animations\RollAnimation.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="componentes\DisplayTipo1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="componentes\DisplayTipo2.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -306,6 +250,13 @@
       <Project>{dbb9dfa3-bc30-46a4-a1f9-04956b7eb3b9}</Project>
       <Name>TurneroClassLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TurneroCustomControlLibrary\TurneroCustomControlLibrary.csproj">
+      <Project>{87ac348c-d9b5-4a3e-96e7-173c55789bd1}</Project>
+      <Name>TurneroCustomControlLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="componentes\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
