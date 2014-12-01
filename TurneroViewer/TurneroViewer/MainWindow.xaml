@@ -5,9 +5,11 @@
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:componentes="clr-namespace:TurneroViewer.componentes" x:Class="TurneroViewer.MainWindow"
         Name="mainWindow" Title="" Height="350" Width="525" Loaded="Window_Loaded" WindowState="Maximized" Topmost="True" Icon="Visualizador.ico">
+    <!--
     <Window.Resources>
         <XmlDataProvider x:Key="rssData" XPath="//item" Source="http://clarin.feedsportal.com/c/33088/f/577681/index.rss" />
     </Window.Resources>
+    -->
     <Grid Name="mainGrid">
         <Grid.Background>
             <!--<ImageBrush ImageSource="imagenes/pattern_texture1191.jpg"/>-->
@@ -51,8 +53,7 @@
                 </Viewbox>
             </Border>
             <Border Name="multimediaBorder" Grid.Row="1" UseLayoutRounding="False">
-                <MediaElement Margin="10" Name="mediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaEnded="mediaPlayer_MediaEnded" IsMuted="True">
-                </MediaElement>
+                <MediaElement Margin="10" Name="mediaPlayer" LoadedBehavior="Manual" UnloadedBehavior="Stop" MediaEnded="mediaPlayer_MediaEnded" IsMuted="True"/>
             </Border>
         </Grid>
 

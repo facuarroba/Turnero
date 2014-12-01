@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,12 +18,12 @@ using TurneroAtencion2.componentes;
 using TurneroClassLibrary;
 using TurneroClassLibrary.entities;
 
-namespace TurneroAtencion2
+namespace TurneroAtencionXBAP
 {
     /// <summary>
-    /// Lógica de interacción para MainWindow.xaml
+    /// Lógica de interacción para Page1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Page1 : Page
     {
         private static String ID_TERMINAL = "1";
 
@@ -43,7 +42,7 @@ namespace TurneroAtencion2
         public ObservableCollection<Turno> listaTurnos { get; set; }
         public ObservableCollection<ItemTurno> listaLlamados { get; set; }
 
-        public MainWindow()
+        public Page1()
         {
             InitializeComponent();
             
@@ -422,7 +421,7 @@ namespace TurneroAtencion2
 
         private void btnLlamarSiguiente_Click(object sender, RoutedEventArgs e)
         {
-            if (lbTurnos.Items.Count > 1)
+            if (lbTurnos.Items.Count > 0)
                 lbTurnos.SelectedItem = lbTurnos.Items[0];
             LlamarTurno();
         }
@@ -454,4 +453,5 @@ namespace TurneroAtencion2
         public Cola cola { get; set; }
         public bool isChecked { get; set; }
     }
+    
 }

@@ -79,7 +79,14 @@ namespace TurneroClassLibrary
             {
                 using (TextReader reader = new StringReader(queryResult.Content))
                 {
-                    clima = (CurrentWeather)mySerializer.Deserialize(reader);
+                    try
+                    {
+                        clima = (CurrentWeather)mySerializer.Deserialize(reader);
+                    }
+                    catch
+                    {
+                        clima = new CurrentWeather();
+                    }
                 }
             }
             return clima;
@@ -349,12 +356,12 @@ namespace TurneroClassLibrary
 
         }
 
-        public Colas getColas(String recepcion = "1")
+        public Colas getColas(String idTerminal, String permiso)
         {
             String ServiceName = "getColas.jsp";
             String XML = "";
             Colas colas;
-            String URL_parameters = "recepcion=" + recepcion;
+            String URL_parameters = "idTerminal=" + idTerminal + "&permiso=" + permiso;
             String URL = URL_PATH + ServiceName + "?" + URL_parameters;
 
             var client = new RestClient(SERVER);
@@ -368,7 +375,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - Parametros: recepcion = " + recepcion + " - Respuesta: " + XML);
+                logger.Info(ServiceName + " - URL: "+ URL + " - Respuesta: " + XML);
                 XmlSerializer mySerializer = new XmlSerializer(typeof(Colas));
                 using (TextReader reader = new StringReader(XML))
                 {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurneroDisplay", "TurneroViewer\TurneroDisplay.csproj", "{CE240180-A5AB-469A-B13F-C3D4C81DA850}"
 EndProject
@@ -12,6 +12,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurneroAtencion2", "TurneroAtencion2\TurneroAtencion2.csproj", "{FF3F46C5-257C-45EE-B44F-193954175216}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurneroMedico", "TurneroMedico\TurneroMedico.csproj", "{FC6024BF-71D4-482A-A225-C9B19440EAB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XBAP", "XBAP", "{D3919AB2-8E11-4363-85C2-E39955325213}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurneroRegistradorXBAP", "TurneroRegistradorXBAP\TurneroRegistradorXBAP.csproj", "{BD732B7E-31A0-4713-AF03-FCF6721EEE27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TurneroAtencionXBAP", "TurneroAtencionXBAP\TurneroAtencionXBAP.csproj", "{FCB5743A-8440-4440-959D-F75711A40E18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,8 +163,62 @@ Global
 		{FC6024BF-71D4-482A-A225-C9B19440EAB1}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{FC6024BF-71D4-482A-A225-C9B19440EAB1}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
 		{FC6024BF-71D4-482A-A225-C9B19440EAB1}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.Release|x86.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27}.SingleImage|x86.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.CD_ROM|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.CD_ROM|Any CPU.Build.0 = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.CD_ROM|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.CD_ROM|Mixed Platforms.Build.0 = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.CD_ROM|x86.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.DVD-5|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.DVD-5|Any CPU.Build.0 = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.DVD-5|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.DVD-5|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.DVD-5|x86.ActiveCfg = Debug|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.Release|x86.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.SingleImage|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.SingleImage|Any CPU.Build.0 = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.SingleImage|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.SingleImage|Mixed Platforms.Build.0 = Release|Any CPU
+		{FCB5743A-8440-4440-959D-F75711A40E18}.SingleImage|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BD732B7E-31A0-4713-AF03-FCF6721EEE27} = {D3919AB2-8E11-4363-85C2-E39955325213}
+		{FCB5743A-8440-4440-959D-F75711A40E18} = {D3919AB2-8E11-4363-85C2-E39955325213}
 	EndGlobalSection
 EndGlobal

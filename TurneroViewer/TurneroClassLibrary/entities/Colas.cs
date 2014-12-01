@@ -15,6 +15,7 @@ namespace TurneroClassLibrary.entities
         [XmlAttribute(AttributeName = "resultado")]
         public string resultado { get; set; }
 
+         [XmlAttribute(AttributeName = "msg")]
         public string msg 
         { 
             get 
@@ -27,7 +28,10 @@ namespace TurneroClassLibrary.entities
         {
             get
             {
-                return itemsField.Count();
+                int res = 0;
+                if (itemsField != null) 
+                    res = itemsField.Count();
+                return res;
             }
         }
 

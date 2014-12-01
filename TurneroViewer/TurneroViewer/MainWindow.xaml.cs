@@ -22,6 +22,8 @@ using System.ComponentModel;
 using TurneroViewer.componentes;
 using System.Media;
 using System.Configuration;
+using Vlc.DotNet.Wpf;
+using Vlc.DotNet.Core.Medias;
 
 
 namespace TurneroViewer
@@ -87,11 +89,17 @@ namespace TurneroViewer
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.mediaPlayer.Source = new Uri(ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.VideoPath"), UriKind.RelativeOrAbsolute);
-            this.mediaPlayer.Play();
-
+            setVideo();
+            //setTV();
             UpdateScreen();
         }
+
+        private void setVideo()
+        {
+            this.mediaPlayer.Source = new Uri(ConfigManager.ReadConnectionSetting("TurneroViewer.Properties.Settings.VideoPath"), UriKind.RelativeOrAbsolute);
+            this.mediaPlayer.Play();
+        }
+
 
         private void mediaPlayer_MediaEnded(object sender, RoutedEventArgs e)
         {
@@ -214,5 +222,57 @@ namespace TurneroViewer
             player.Play();
         }
 
+        private void setTV()
+        {
+
+            VlcControl vlcPlayer = new VlcControl();
+
+            multimediaBorder.Child = vlcPlayer;
+
+            // WPF dark magic ahead: run-time interpreted data binding
+            // When the VLC video changes (is loaded for example), the grid displays the new video image
+            Binding vlcBinding = new Binding("VideoSource");
+            vlcBinding.Source = vlcPlayer;
+
+            // VLC paints into a WPF image
+            Image vImage = new Image();
+            vImage.SetBinding(Image.SourceProperty, vlcBinding);
+
+            // The WPF image is used by a WPF brush
+            VisualBrush vBrush = new VisualBrush();
+            vBrush.TileMode = TileMode.None;
+            vBrush.Stretch = Stretch.Uniform;
+            vBrush.Visual = vImage;
+
+            // The WPF brush is used by the grid element background
+            multimediaBorder.Background = vBrush;
+
+            //TELEFE HD: rtmp://sl100tb.cxnlive.com/live/telefe.stream 
+            //EL TRECE HD: rtsp://stream.eltrecetv.com.ar/live13/13tv/13tv1 
+            //AMERICA TV HD: rtmp://sl100tb.cxnlive.com/live/america.stream 
+            //CANAL 9 HD: rtmp://sl100tb.cxnlive.com/live/canal9.stream 
+            //TV PUBLICA HD: rtmp://sl100tb.cxnlive.com/live/tvpublica.stream 
+            //TyC Sports HD: rtmp://sl100tb.cxnlive.com/live/tyc.stream 
+            //TN HD: rtsp://stream.tn.com.ar/live/tnhd1 
+            //Canal 26 HD: rtsp://live-edge01.telecentro.net.ar:80/live/26hd-360 
+            //Deportv hd: rtmp://sl100tb.cxnlive.com/live/deportv.stream 
+            //Magazine TV: rtsp://stream.mgzn.tv/live/mgzntv/mgzntv 
+            //FOX SPORT: rtmp://wdc.cxnlive.com/live/foxsd.stream 
+            //ESPN: rtmp://wdc.cxnlive.com/live/espn.stream 
+            //CRONICA TV: rtmp://wdc.cxnlive.com/live/cronica.stream 
+            //CANAL 22 Mexico: rtmp://origen.cloudapp.net/live/envivopc
+            //LATINO:VTV URUGUAY rtmp://sl100tb.cxnlive.com/live/vtv.stream 
+            //LATINO:VTV+ URUGUAY rtmp://sl100tb.cxnlive.com/live/vtvmas.stream 
+            //LATINO:MONTECARLO URUGUAY HD rtmp://sl100tb.cxnlive.com/live/montecarlo.stream 
+            //LATINO:CANAL 10 URUGUAY HD rtmp://sl100tb.cxnlive.com/live/canal10.stream 
+            //LATINO:TELEDOCE URUGUAY HD rtmp://sl100tb.cxnlive.com/live/teledoce.stream 
+            //VTV uruguay (futbol local - Seleccion): rtmp://sl100tb.cxnlive.com/live//vtv.stream 
+            //Deportv HD: rtmp://sl100tb.cxnlive.com/live/deportv.stream 
+            //America TV: rtmp://wdc.cxnlive.com/live/americasd.stream 
+            //Q musica: "mms://streamqm.uigc.net/qmusica"
+            var media1 = new LocationMedia("rtsp://stream.tn.com.ar/live/tnhd1");
+
+            vlcPlayer.Media = media1;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,14 +15,13 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using TurneroClassLibrary;
 using TurneroClassLibrary.entities;
-using System.Configuration;
 
-namespace TurneroRegistrador
+namespace TurneroRegistradorXBAP
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Lógica de interacción para Page1.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Page1 : Page
     {
         private string ID_TERMINAL = "101";
         private int errorCount = 0;
@@ -35,8 +35,7 @@ namespace TurneroRegistrador
         DispatcherTimer queueTimer;
 
         ServiceQuery serviceQuery;
-
-        public MainWindow()
+        public Page1()
         {
             InitializeComponent();
 
@@ -68,7 +67,7 @@ namespace TurneroRegistrador
         private void updateList()
         {
             listColas.Items.Clear();
-            Colas colas = serviceQuery.getColas(ID_TERMINAL,"L");
+            Colas colas = serviceQuery.getColas(ID_TERMINAL, "L");
 
             if (colas.resultado == "ok")
             {
@@ -122,12 +121,12 @@ namespace TurneroRegistrador
                     }
                     else
                     {
-                        MessageBox.Show("Error al intentar registrar el turno. Msg: " + registro.msg); 
+                        MessageBox.Show("Error al intentar registrar el turno. Msg: " + registro.msg);
                     }
                     Keyboard.Focus(txtName);
                 }
-            }            
-            
+            }
+
             else
             {
                 MessageBox.Show("Debe seleccionar un tipo de atención");
@@ -149,7 +148,5 @@ namespace TurneroRegistrador
             errorCount = 0;
             queueTimer.Interval = TimeSpan.FromMilliseconds(spanQuery);
         }
-
-       
     }
 }
