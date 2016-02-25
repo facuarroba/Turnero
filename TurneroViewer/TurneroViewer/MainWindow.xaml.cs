@@ -188,12 +188,12 @@ namespace TurneroViewer
                                 break;
                             }
                             else
-                                res = Convert.ToInt16(t.idTurno);
+                                res = Convert.ToInt32(t.idTurno);
                         }
                     }
                     else
                     {
-                        res = Convert.ToInt16(t.idTurno);
+                        res = Convert.ToInt32(t.idTurno);
                     }
                     if (res != 0)
                         ids.Add(res);
@@ -258,7 +258,7 @@ namespace TurneroViewer
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error instanciando VLC");
+                MessageBox.Show("Error instanciando VLC. Error: " + e.ToString());
             }
         }
     }

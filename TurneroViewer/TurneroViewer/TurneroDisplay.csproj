@@ -86,13 +86,13 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="Vlc.DotNet.Core">
-      <HintPath>..\..\..\..\proyectos\TvViewer\TvViewer\dll\Vlc.DotNet.Core.dll</HintPath>
+      <HintPath>..\packages\Vlc.DotNet.2011.11.29.0\lib\net20\Vlc.DotNet.Core.dll</HintPath>
     </Reference>
     <Reference Include="Vlc.DotNet.Core.Interops">
-      <HintPath>..\..\..\..\proyectos\TvViewer\TvViewer\dll\Vlc.DotNet.Core.Interops.dll</HintPath>
+      <HintPath>..\packages\Vlc.DotNet.2011.11.29.0\lib\net20\Vlc.DotNet.Core.Interops.dll</HintPath>
     </Reference>
     <Reference Include="Vlc.DotNet.Wpf">
-      <HintPath>..\..\..\..\proyectos\TvViewer\TvViewer\dll\Vlc.DotNet.Wpf.dll</HintPath>
+      <HintPath>..\packages\Vlc.DotNet.Wpf.2011.11.29.0\lib\net20\Vlc.DotNet.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
