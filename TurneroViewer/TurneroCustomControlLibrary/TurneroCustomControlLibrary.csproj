@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -77,6 +78,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="componentes\displays\DisplayTipo6.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="componentes\displays\DisplayTipo4.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -110,15 +115,25 @@
     <Compile Include="componentes\displays\DisplayTipo3.xaml.cs">
       <DependentUpon>DisplayTipo3.xaml</DependentUpon>
     </Compile>
+    <Compile Include="componentes\displays\DisplayTipo6.xaml.cs">
+      <DependentUpon>DisplayTipo6.xaml</DependentUpon>
+    </Compile>
     <Compile Include="componentes\displays\DisplayTipo4.xaml.cs">
       <DependentUpon>DisplayTipo4.xaml</DependentUpon>
     </Compile>
     <Compile Include="componentes\ItemTurno.xaml.cs">
       <DependentUpon>ItemTurno.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditTurno.xaml.cs">
+      <DependentUpon>EditTurno.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WindowBase.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="EditTurno.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -157,6 +172,45 @@
       <Project>{dbb9dfa3-bc30-46a4-a1f9-04956b7eb3b9}</Project>
       <Name>TurneroClassLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo CAUDA.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Atendido.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Llamado.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Esperando.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Botones\btnAttendDisabled.png" />
+    <Resource Include="Resources\Botones\btnAttendEnabled.png" />
+    <Resource Include="Resources\Botones\btnAttendOver.png" />
+    <Resource Include="Resources\Botones\btnCallDisabled.png" />
+    <Resource Include="Resources\Botones\btnCallEnabled.png" />
+    <Resource Include="Resources\Botones\btnCallOver.png" />
+    <Resource Include="Resources\Botones\btnCancelDisabled.png" />
+    <Resource Include="Resources\Botones\btnCancelEnabled.png" />
+    <Resource Include="Resources\Botones\btnCancelOver.png" />
+    <Resource Include="Resources\Botones\btnDelegateDisabled.png" />
+    <Resource Include="Resources\Botones\btnDelegateEnabled.png" />
+    <Resource Include="Resources\Botones\btnDelegateOver.png" />
+    <Resource Include="Resources\Botones\btnEditDisabled.png" />
+    <Resource Include="Resources\Botones\btnEditEnabled.png" />
+    <Resource Include="Resources\Botones\btnEditOver.png" />
+    <Resource Include="Resources\Botones\btnFinalizeDisabled.png" />
+    <Resource Include="Resources\Botones\btnFinalizeEnabled.png" />
+    <Resource Include="Resources\Botones\btnFinalizeOver.png" />
+    <Resource Include="Resources\Botones\btnNextDisabled.png" />
+    <Resource Include="Resources\Botones\btnNextEnabled.png" />
+    <Resource Include="Resources\Botones\btnNextOver.png" />
+    <Resource Include="Resources\Botones\btnRegisterDisabled.png" />
+    <Resource Include="Resources\Botones\btnRegisterEnabled.png" />
+    <Resource Include="Resources\Botones\btnRegisterOver.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

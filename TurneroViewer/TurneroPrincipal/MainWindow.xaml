@@ -1,0 +1,28 @@
+﻿<base:WindowBase x:Class="TurneroPrincipal.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:base="clr-namespace:TurneroCustomControlLibrary;assembly=TurneroCustomControlLibrary"
+        Title="" Height="600" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Turnos">
+                <MenuItem Header="Registrar" Click="MenuItemRegistrar_Click"></MenuItem>
+                <MenuItem Header="Atender" Click="MenuItemAtender_Click"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Ayuda">
+                <MenuItem Header="Ver la ayuda" Visibility="Collapsed"  Click="MenuItemHelp_Click"></MenuItem>
+                <MenuItem Header="Contactar soporte"></MenuItem>
+                <MenuItem Header="Acerca de Cauda"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Salir" Click="MenuItemSalir_Click"></MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFA2A1A1" Offset="0"/>
+                    <GradientStop Color="#FFD8D6D6" Offset="0.996"/>
+                </RadialGradientBrush>
+            </Grid.Background>
+        </Grid>
+    </DockPanel>
+</base:WindowBase>

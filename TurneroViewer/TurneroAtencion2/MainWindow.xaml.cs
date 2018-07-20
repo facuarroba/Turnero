@@ -28,7 +28,6 @@ namespace TurneroAtencion2
     public partial class MainWindow : WindowBase
     {
         private Turno turnoDerivar = null;
-        
 
         public ObservableCollection<checkItemCaja> listaCajas { get; set; }
         public ObservableCollection<Cola> listaCajasDerivar { get; set; }
@@ -66,6 +65,8 @@ namespace TurneroAtencion2
             if (item != null)
                 findSelected(lbLlamados,((ItemTurno) item).Turno.idTurno);
 
+            this.Title = "Turnero Atención  - " + TerminalName;
+
         }
 
         private void findSelected(ListBox lb, String id)
@@ -95,7 +96,8 @@ namespace TurneroAtencion2
             {
                 if (turnos.turnos != null)
                 {
-                    foreach (Turno t in this.ServiceQuery.ordenarTurnos(turnos.turnos))
+                    //foreach (Turno t in this.ServiceQuery.ordenarTurnos(turnos.turnos))
+                    foreach (Turno t in turnos.turnos)
                     {
                         if (checkTurnoCaja(t))
                             listaTurnos.Add(t);
@@ -119,8 +121,8 @@ namespace TurneroAtencion2
                     {
                         if (checkTurnoCaja(t))
                         {
-                            ItemTurno item = new ItemTurno();
-                            item.Turno = t;
+                            ItemTurno item = new ItemTurno(t);
+                            
                             listaLlamados.Add(item);
                         }
                     }
@@ -219,7 +221,7 @@ namespace TurneroAtencion2
                 turno = ((ItemTurno)lbLlamados.SelectedItem).Turno;
             if (turno != null)
             {
-                if (MessageBox.Show("Va a finalizar el turno de" + turno.nombre + ". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Va a finalizar el turno de " + turno.nombre + ". ¿Está ud. seguro?", "Mensaje", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     FinalizaTurno t = this.ServiceQuery.finalizaTurno(turno.idTurno);
                     if (t.resultado == "error")
@@ -377,7 +379,7 @@ namespace TurneroAtencion2
 
         private void btnLlamarSiguiente_Click(object sender, RoutedEventArgs e)
         {
-            if (lbTurnos.Items.Count > 1)
+            if (lbTurnos.Items.Count >= 1)
                 lbTurnos.SelectedItem = lbTurnos.Items[0];
             LlamarTurno();
         }

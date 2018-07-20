@@ -60,6 +60,8 @@
     <Compile Include="entities\CurrentWeather.cs" />
     <Compile Include="entities\GestionTurno.cs" />
     <Compile Include="entities\Queue.cs" />
+    <Compile Include="entities\Modificacion.cs" />
+    <Compile Include="entities\Terminal.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="NLogLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

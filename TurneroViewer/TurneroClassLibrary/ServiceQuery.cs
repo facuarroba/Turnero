@@ -92,6 +92,43 @@ namespace TurneroClassLibrary
             return clima;
         }
 
+        public Terminal consultarNombreTerminal(String idTerminal)
+        {
+            String ServiceName = "getNombreTerminal.jsp";
+            String XML = "";
+            Terminal terminal;
+            String URL_parameters = "idTerminal=" + idTerminal;
+            String URL = URL_PATH + ServiceName + "?" + URL_parameters;
+
+            var client = new RestClient(SERVER);
+            client.Timeout = 1000;
+            
+            try
+            {
+                RestRequest request = new RestRequest(URL, Method.GET);
+
+                IRestResponse queryResult = client.Execute(request);
+                XML = queryResult.Content.Replace(System.Environment.NewLine, string.Empty);
+
+                XmlSerializer mySerializer = new XmlSerializer(typeof(Terminal));
+                using (TextReader reader = new StringReader(XML))
+                {
+                    terminal = (Terminal)mySerializer.Deserialize(reader);
+                }
+                return terminal;
+            }
+            catch (Exception e)
+            {
+                Terminal error = new Terminal();
+                error.resultado = "error";
+                error.msg = "internal error: " + e.Message;
+                logger.Error(ServiceName + " - Msg: " + e.Message);
+                return error;
+            }
+
+        }
+
+
         public Turnos consultarTurnos(String idTerminal, String estado = "0")
         {
             String ServiceName = "consultarTurnos.jsp";
@@ -102,16 +139,15 @@ namespace TurneroClassLibrary
 
             var client = new RestClient(SERVER);
             client.Timeout = 1000;
-            logger.Info(ServiceName + " - URL: " + URL);
+            //logger.Info(ServiceName + " - URL: " + URL);
             try
             {
                 RestRequest request = new RestRequest(URL, Method.GET);
                 
                 IRestResponse queryResult = client.Execute(request);
+                XML = queryResult.Content.Replace(System.Environment.NewLine,string.Empty);
 
-                XML = queryResult.Content;
-
-                logger.Info(ServiceName + " - Parametros: idTerminal = " + idTerminal + " - estado = " + estado + " - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - Parametros: idTerminal = " + idTerminal + " - estado = " + estado + " - Respuesta: " + XML);
                 XmlSerializer mySerializer = new XmlSerializer(typeof(Turnos));
                 using (TextReader reader = new StringReader(XML))
                 {
@@ -141,7 +177,7 @@ namespace TurneroClassLibrary
 
             var client = new RestClient(SERVER);
             client.Timeout = 1000;
-            logger.Info(ServiceName + " - URL: " + URL);
+            //logger.Info(ServiceName + " - URL: " + URL);
             try
             {
                 RestRequest request = new RestRequest(URL, Method.GET);
@@ -150,7 +186,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - Parametros: idTerminal = " + idTerminal + " - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - Parametros: idTerminal = " + idTerminal + " - Respuesta: " + XML);
                 XmlSerializer mySerializer = new XmlSerializer(typeof(Turnos));
                 using (TextReader reader = new StringReader(XML))
                 {
@@ -209,14 +245,14 @@ namespace TurneroClassLibrary
 
         //}
 
-        public Registro registrarTurno(Cola cola, String hc, String nombre = "")
+        public Registro registrarTurno(Cola cola, String hc, String nombre = "", int prioridad=1)
         {
             String ServiceName = "registrarTurno.jsp";
             Registro registro = null;
             String XML = "";
             String URL_parameters = "";
             if (hc == "") hc = "0";
-            URL_parameters = "hc=" + hc + "&nombre=" + nombre + "&tipo_atencion=" + cola.tipoAtencion;
+            URL_parameters = "hc=" + hc + "&nombre=" + nombre + "&tipo_atencion=" + cola.tipoAtencion + "&prioridad=" + prioridad;
 
             var client = new RestClient(SERVER);
             client.Timeout = 1000;
@@ -227,7 +263,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - Parametros: Caja = " + cola + " - nombre = "+ nombre +" - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - Parametros: Caja = " + cola + " - nombre = "+ nombre +" - Respuesta: " + XML);
                 XmlSerializer mySerializer = new XmlSerializer(typeof(Registro));
                 using (TextReader reader = new StringReader(XML))
                 {
@@ -238,6 +274,42 @@ namespace TurneroClassLibrary
             catch(Exception e)
             {
                 Registro error = new Registro();
+                error.resultado = "error";
+                error.msg = "internal error: " + e.Message;
+                logger.Error(ServiceName + " - Msg: " + e.Message);
+                return error;
+            }
+        }
+
+        public Modificacion modificarTurno(String idTurno, String hc, String nombre = "", int prioridad = 1)
+        {
+            String ServiceName = "modificarTurno.jsp";
+            Modificacion registro = null;
+            String XML = "";
+            String URL_parameters = "";
+            if (hc == "") hc = "0";
+            URL_parameters = "idTurno="+idTurno+ "&hc=" + hc + "&nombre=" + nombre + "&prioridad=" + prioridad;
+            //URL_parameters ="idTurno="+idTurno+ "&hc=" + hc + "&nombre=" + nombre;
+            var client = new RestClient(SERVER);
+            client.Timeout = 1000;
+            try
+            {
+                RestRequest request = new RestRequest(URL_PATH + ServiceName + "?" + URL_parameters, Method.GET);
+                IRestResponse queryResult = client.Execute(request);
+
+                XML = queryResult.Content;
+
+                //logger.Info(ServiceName + " - Parametros: Caja = " + cola + " - nombre = "+ nombre +" - Respuesta: " + XML);
+                XmlSerializer mySerializer = new XmlSerializer(typeof(Modificacion));
+                using (TextReader reader = new StringReader(XML))
+                {
+                    registro = (Modificacion)mySerializer.Deserialize(reader);
+                }
+                return registro;
+            }
+            catch (Exception e)
+            {
+                Modificacion error = new Modificacion();
                 error.resultado = "error";
                 error.msg = "internal error: " + e.Message;
                 logger.Error(ServiceName + " - Msg: " + e.Message);
@@ -262,7 +334,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - idTerminal = " + idTerminal + " - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - idTerminal = " + idTerminal + " - Respuesta: " + XML);
                 XmlSerializer mySerializer = new XmlSerializer(typeof(LlamaTurno));
                 using (TextReader reader = new StringReader(XML))
                 {
@@ -299,7 +371,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - Respuesta: " + XML);
 
                 XmlSerializer mySerializer = new XmlSerializer(typeof(AtiendeTurno));
                 using (TextReader reader = new StringReader(XML))
@@ -336,7 +408,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - Respuesta: " + XML);
 
                 XmlSerializer mySerializer = new XmlSerializer(typeof(FinalizaTurno));
                 using (TextReader reader = new StringReader(XML))
@@ -366,7 +438,7 @@ namespace TurneroClassLibrary
 
             var client = new RestClient(SERVER);
             client.Timeout = 1000;
-            logger.Info(ServiceName + " - URL: " + URL);
+            //logger.Info(ServiceName + " - URL: " + URL);
             try
             {
                 RestRequest request = new RestRequest(URL, Method.GET);
@@ -375,7 +447,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - URL: "+ URL + " - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - URL: "+ URL + " - Respuesta: " + XML);
                 XmlSerializer mySerializer = new XmlSerializer(typeof(Colas));
                 using (TextReader reader = new StringReader(XML))
                 {
@@ -410,7 +482,7 @@ namespace TurneroClassLibrary
 
                 XML = queryResult.Content;
 
-                logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - Respuesta: " + XML);
+                //logger.Info(ServiceName + " - Parametros: idTurno = " + idTurno + " - Respuesta: " + XML);
 
                 XmlSerializer mySerializer = new XmlSerializer(typeof(CancelaLlamado));
                 using (TextReader reader = new StringReader(XML))

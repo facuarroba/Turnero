@@ -1,8 +1,9 @@
-﻿<Window x:Name="mainWindow" x:Class="TurneroRegistrador.MainWindow"
+﻿<base:WindowBase x:Class="TurneroRegistrador.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Registro de turnos" Height="350" Width="525" MinHeight="350" MinWidth="525"  Icon="Recepcion.ico">
-
+        xmlns:base="clr-namespace:TurneroCustomControlLibrary;assembly=TurneroCustomControlLibrary"
+        Title="Registro de turnos" Height="350" Width="720" MinHeight="350" MinWidth="720"  Icon="Recepcion.ico">
+    
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>
@@ -11,8 +12,9 @@
             </RadialGradientBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="45"></RowDefinition>
@@ -23,17 +25,61 @@
         <ListBox Grid.Row="1" Name="listColas" Height="auto" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="auto" TabIndex="0" />
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="148"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Style="{StaticResource buttonStyle}" Content="Registrar turno" Grid.Column="0" Grid.Row="1" Height="50" HorizontalAlignment="Center" Margin="8" Name="button1" VerticalAlignment="Top" Width="157" Click="button1_Click" TabIndex="3" />
-            <Grid Margin="0,10,0,0">
+            <Button Grid.Row="1"  Style="{StaticResource buttonStyle}" Height="30" Margin="5" IsEnabled="True" Width="90" Name="button1" Click="button1_Click" TabIndex="5">
+                <Image>
+                    <Image.Resources>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                            <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterEnabled.png"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterOver.png"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled"  Value="False">
+                                    <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterDisabled.png"/>
+                                </Trigger>
+                                <DataTrigger Binding ="{Binding ElementName=txtName, Path=Text}" Value="">
+                                    <Setter Property="Button.IsEnabled" Value="false"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Resources>
+                </Image>
+            </Button>
+
+<!--
+            <Button Height="30" Grid.Row="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Name="button1" Click="button1_Click" TabIndex="4">
+                <Image>
+                    <Image.Resources>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                            <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterEnabled.png"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterOver.png"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled"  Value="true">
+                                    <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterDisabled.png"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Resources>
+                </Image>
+
+            </Button>
+-->
+            <Grid Name="gridTextBoxes" Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition Width="2*" ></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
@@ -42,14 +88,84 @@
                 <TextBox Name="txtHC" IsEnabled="{Binding ElementName=checkHC, Path=IsChecked}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,26,0,29" Width="100" Height="20" ></TextBox>
                 -->
                 <Label HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="11">Nombre</Label>
-                <TextBox Name="txtName" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,4,0" Height="25" TabIndex="1" ></TextBox>
+                <TextBox PreviewTextInput="NumberValidationTextBox"  Name="txtName" VerticalContentAlignment="Center" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,4,0" Height="25" TabIndex="1" ></TextBox>
 
-                <Label Grid.Row="1" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center" FontSize="11">Historia clínica</Label>
-                <TextBox Grid.Row="1" Name="txtHC" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,4,0" Height="25" TabIndex="2" ></TextBox>
+                <Label Grid.Row="3" HorizontalAlignment="Right" Margin="0,3,5,5" VerticalAlignment="Center" FontSize="11">Historia clínica</Label>
+                <TextBox PreviewTextInput="NumberValidationTextBox"  Grid.Row="3" Name="txtHC" VerticalContentAlignment="Center" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,4,0" Height="25" TabIndex="4" ></TextBox>
+
+                <Label Grid.Row="1" HorizontalAlignment="Right" Margin="0,3,5,5" VerticalAlignment="Center" FontSize="11">Nota</Label>
+                <TextBox PreviewTextInput="NumberValidationTextBox"  Grid.Row="1" Name="txtNota" VerticalContentAlignment="Center" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,4,0" Height="25" TabIndex="2" ></TextBox>
+
+                <Label Grid.Row="2" HorizontalAlignment="Right" Margin="0,3,5,5" VerticalAlignment="Center" FontSize="11">Prioridad</Label>
+                <ComboBox Name="cmbPrioridad" VerticalContentAlignment="Center"  Grid.Row="2" Grid.Column="1" TabIndex="3" Margin="0,3,5,5" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBoxItem IsSelected="True">Normal</ComboBoxItem>
+                    <ComboBoxItem >Alta</ComboBoxItem>
+                </ComboBox>
+
             </Grid>
-
+            
             <Label x:Name="labelNumber" Visibility="Hidden" Grid.Column="0" Grid.Row="2" FontSize="90" FontFamily="Arial Black" HorizontalAlignment="Center" VerticalAlignment="Center">- --</Label>
         </Grid>
 
+        <Grid Name="gridTurnos" Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="48"></RowDefinition>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Column="2" ItemsSource="{Binding listaTurnos}" Name="lbTurnos" Margin="4" Background="#FFFFFBFB" BorderBrush="{x:Null}" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding NombreMostrar}" FontWeight="{Binding FontWeight}" Foreground="{Binding ForegroundColor}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Style="{StaticResource buttonStyle}" Name="btnFinalizar" Height="30" Margin="5" Click="btnFinalizar_Click" IsEnabled="True">
+                    <Image>
+                        <Image.Resources>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnFinalizeEnabled.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnFinalizeOver.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled"  Value="False">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnFinalizeDisabled.png"/>
+                                    </Trigger>
+                                    <DataTrigger Binding ="{Binding ElementName=lbTurnos, Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="Button.IsEnabled" Value="false"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Resources>
+                    </Image>    
+                </Button>
+                <Button Style="{StaticResource buttonStyle}" Name="btnEditar" Click="btnEditar_Click" Height="30" IsEnabled="True" Margin="5">
+                    <Image>
+                        <Image.Resources>
+                            <Style TargetType="{x:Type Image}" >
+                                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnEditEnabled.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnEditOver.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled"  Value="False">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnEditDisabled.png"/>
+                                    </Trigger>
+                                    <DataTrigger Binding ="{Binding ElementName=lbTurnos, Path=SelectedIndex}" Value="-1">
+                                        <Setter Property="Button.IsEnabled" Value="false"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Resources>
+                    </Image>                    
+                </Button>
+            </StackPanel>
+            
+        </Grid>
+        
+
     </Grid>
-</Window>
+</base:WindowBase>

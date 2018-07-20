@@ -4,7 +4,12 @@
                  xmlns:base="clr-namespace:TurneroCustomControlLibrary;assembly=TurneroCustomControlLibrary"
         Title="Turnero Atencion" Height="500" Width="800" MinHeight="500" MinWidth="800" Icon="Atendedor.ico">
     <Grid Name="mainGrid">
-
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FFA2A1A1" Offset="0"/>
+                <GradientStop Color="#FFD8D6D6" Offset="0.996"/>
+            </RadialGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
@@ -23,7 +28,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"></RowDefinition>
                     <RowDefinition></RowDefinition>
-                    <RowDefinition Height="30"></RowDefinition>
+                    <RowDefinition Height="38"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Label>Tipos de atención</Label>
                 <ListBox Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="4" ItemsSource="{Binding listaCajas}" Background="#FFFFFBFB" BorderBrush="{x:Null}">
@@ -35,9 +40,49 @@
                 </ListBox>
 
                 <Label Grid.Column="2">Turnos registrados</Label>
-                <ListBox Grid.Column="2" ItemsSource="{Binding listaTurnos}" Grid.Row="1" Grid.RowSpan="2" Name="lbTurnos" Margin="4" Background="#FFFFFBFB" BorderBrush="{x:Null}" ></ListBox>
-                <Button Name="btnLlamarSiguiente"  Grid.Column="3" Height="30" Grid.Row="1" Style="{StaticResource buttonStyle}" VerticalAlignment="Bottom"  FontWeight="Bold" Click="btnLlamarSiguiente_Click" >Llamar siguiente</Button>
-                <Button Name="btnLlamar"  Grid.Column="3" Grid.Row="2" Style="{StaticResource buttonStyle}" Height="Auto" FontWeight="Bold" Click="Button_Click_3">Llamar</Button>
+                <ListBox Grid.Column="2" ItemsSource="{Binding listaTurnos}" Grid.Row="1" Grid.RowSpan="2" Name="lbTurnos" Margin="4" Background="#FFFFFBFB" BorderBrush="{x:Null}" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding NombreMostrar}" FontWeight="{Binding FontWeight}" Foreground="{Binding ForegroundColor}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Name="btnLlamarSiguiente"  Grid.Column="3" Height="30" Grid.Row="1" Style="{StaticResource buttonStyle}" VerticalAlignment="Bottom"  FontWeight="Bold" Margin="2" Click="btnLlamarSiguiente_Click" >
+                    <Image>
+                        <Image.Resources>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnNextEnabled.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnNextOver.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled"  Value="False">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnNextDisabled.png"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Resources>
+                    </Image>
+                </Button>
+                <Button Name="btnLlamar"  Grid.Column="3" Grid.Row="2" Margin="2" Style="{StaticResource buttonStyle}" Height="30" FontWeight="Bold" Click="Button_Click_3">
+                    <Image>
+                        <Image.Resources>
+                            <Style TargetType="{x:Type Image}">
+                                <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnCallEnabled.png"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnCallOver.png"/>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled"  Value="False">
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnCallDisabled.png"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Resources>
+                    </Image>
+                </Button>
             </Grid>
         </Border>
 
@@ -59,13 +104,82 @@
                     </Grid.RowDefinitions>
 
                     <Label>Turno llamado</Label>
-                    <ListBox Grid.Row="1" Grid.RowSpan="2" ItemsSource="{Binding listaLlamados}" Margin="4,4,10,4" Name="lbLlamados" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="#FFFFFBFB"></ListBox>
+                    <ListBox Grid.Row="1" Grid.RowSpan="2" ItemsSource="{Binding listaLlamados}" Margin="4,4,10,4" Name="lbLlamados" HorizontalContentAlignment="Stretch" BorderBrush="{x:Null}" Background="#FFFFFBFB">
+                    </ListBox>
 
                     <StackPanel Grid.Row="1" Grid.RowSpan="3" Margin="5" Grid.Column="1">
-                        <Button Name="btnAtender" Height="30" Click="btnAtender_Click" Style="{StaticResource buttonStyle}">Atender</Button>
-                        <Button Name="btnCancelar" Height="30" Style="{StaticResource buttonStyle}" Click="btnCancelar_Click">Cancelar</Button>
-                        <Button Name="btnFinalizar" Height="30" Click="btnFinalizar_Click" Style="{StaticResource buttonStyle}">Finalizar</Button>
-                        <Button Name="btnDerivar" Height="30" Style="{StaticResource buttonStyle}" Click="btnDerivar_Click">Derivar >></Button>
+                        <Button Name="btnAtender" Height="30" Click="btnAtender_Click" Style="{StaticResource buttonStyle}">
+                            <Image>
+                                <Image.Resources>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnAttendEnabled.png"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnAttendOver.png"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled"  Value="False">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnAttendDisabled.png"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Resources>
+                            </Image>
+                        </Button>
+                        <Button Name="btnCancelar" Height="30" Style="{StaticResource buttonStyle}" Click="btnCancelar_Click">
+                            <Image>
+                                <Image.Resources>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnCancelEnabled.png"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnCancelOver.png"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled"  Value="False">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnCancelDisabled.png"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Resources>
+                            </Image>
+                        </Button>
+                        <Button Name="btnFinalizar" Height="30" Click="btnFinalizar_Click" Style="{StaticResource buttonStyle}">
+                            <Image>
+                                <Image.Resources>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnFinalizeEnabled.png"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnFinalizeOver.png"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled"  Value="False">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnFinalizeDisabled.png"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Resources>
+                            </Image>
+                        </Button>
+                        <Button Name="btnDerivar" Height="30" Style="{StaticResource buttonStyle}" Click="btnDerivar_Click">
+                            <Image>
+                                <Image.Resources>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnDelegateEnabled.png"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnDelegateOver.png"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled"  Value="False">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnDelegateDisabled.png"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Resources>
+                            </Image>
+                        </Button>
                     </StackPanel>
                 </Grid>
                 <GroupBox Grid.Column="1" Header="Nuevo turno" Margin="2">
@@ -78,14 +192,32 @@
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition></RowDefinition>
-                            <RowDefinition Height="30"></RowDefinition>
+                            <RowDefinition Height="40"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Label Grid.Column="0" Grid.Row="0" Foreground="#B2000000" Name="lblName">Nombre</Label>
                         <Label Grid.Column="1" Grid.Row="0" Foreground="#B2000000" Name="lblHC">H.C.:</Label>
 
                         <Label Grid.Column="0" Grid.Row="1">Tipos de atención</Label>
                         <ListBox x:Name="listColas" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" Margin="4" BorderBrush="{x:Null}" ItemsSource="{Binding listaCajasDerivar}" Background="#FFFFFBFB"></ListBox>
-                        <Button Grid.Column="1" Grid.Row="3" Style="{StaticResource buttonStyle}" Click="Button_Click">Registrar</Button>
+                        <Button Grid.Column="1" Height="30" Grid.Row="3" Style="{StaticResource buttonStyle}" Click="Button_Click">
+                            <Image>
+                                <Image.Resources>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
+                                        <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterEnabled.png"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterOver.png"/>
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled"  Value="False">
+                                                <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Botones/btnRegisterDisabled.png"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Resources>
+                            </Image>
+
+                        </Button>
                         
                         <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource buttonStyle}" Click="Button_Click_1" Visibility="Hidden">Editar</Button>                        
                         <TextBox Name="txtName" Margin="2" Visibility="Hidden"></TextBox>

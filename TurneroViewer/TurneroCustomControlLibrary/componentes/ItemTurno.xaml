@@ -5,19 +5,35 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="150" d:DesignWidth="500" BorderBrush="#FF030349" Margin="2">
-    <Grid Name="mainGrid" Background="AliceBlue" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Label Name="lblName" Grid.ColumnSpan="2">Nombre</Label>
-        <Label Name="lblHC" Grid.Row="1">Historia Clínica</Label>
-        <Label Name="lblNro" Grid.Row="1" Grid.Column="1">N°</Label>
-        <Label Name="lblEstado" Grid.Row="1" Grid.Column="2">Estado</Label>
-    </Grid>                    
+    <Grid Name="mainGrid">
+        <Border Name="mainBorder" Height="80" BorderThickness="1,1,1,1" CornerRadius="16" Background="DarkSlateGray">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Name="IconGrid" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Name="imgEstado" Margin="8" Source="/TurneroCustomControlLibrary;component/Resources/Atendido.png" />
+                    <Label Name="lblEstado" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center" Padding="0" Foreground="#FFFDFBFB">Test</Label>
+                </Grid>
+                <Grid Name="InfoGrid" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Name="lblName" Grid.ColumnSpan="2" FontWeight="Bold" Background="{x:Null}" Foreground="White">Nombre</Label>
+                    <Label Name="lblHC" Grid.Row="1" FontWeight="Bold" Foreground="White">H.C.:</Label>
+                    <Label Name="lblNro" Grid.Row="1" Grid.Column="1" FontWeight="Bold" Foreground="White">Nro:</Label>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

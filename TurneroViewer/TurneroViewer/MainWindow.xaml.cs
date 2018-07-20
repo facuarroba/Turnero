@@ -41,6 +41,8 @@ namespace TurneroViewer
         private string showBar = "1";
         private string climaIconosPath;
         private string soundPath;
+        private DateTime inicio;
+        private DateTime fin;
 
         public MainWindow()
         {
@@ -49,11 +51,7 @@ namespace TurneroViewer
             AppName = "TurneroViewer";
             loadSettings();
             this.Cursor = Cursors.None;
-            
-            //if (showBar.Equals("1"))
-            //    this.WindowStyle = System.Windows.WindowStyle.SingleBorderWindow;
-            //else
-            //    this.WindowStyle = System.Windows.WindowStyle.None;
+
 
             this.DataContext = this;
 
@@ -71,17 +69,25 @@ namespace TurneroViewer
 
         void loadSettings()
         {
-            this.ServiceQuery.server = ConfigManager.ReadConnectionSetting(AppName, "Servidor");
-            this.ServiceQuery.urlPath = ConfigManager.ReadConnectionSetting(AppName, "ServicePath");
+            base.loadSettings();
+
             this.ServiceQuery.weatherServer = ConfigManager.ReadConnectionSetting(AppName, "ClimaServer");
             this.ServiceQuery.weatherPath = ConfigManager.ReadConnectionSetting(AppName, "ClimaPath");
             videoPath = ConfigManager.ReadConnectionSetting(AppName, "VideoPath");
+            
+            if(ConfigManager.readStringSetting("windowState") == "0")
+                this.WindowState = System.Windows.WindowState.Normal;
+            else
+                this.WindowState = System.Windows.WindowState.Maximized;
 
             this.IdTerminal = ConfigManager.readStringSetting("idTerminal");
             showBar = ConfigManager.readStringSetting("showBar");
 
             climaIconosPath = "pack://application:,,,/TurneroViewer;component/imagenes/iconos/";
             soundPath = "sounds/line.wav";
+
+            inicio = DateTime.Parse(ConfigManager.readStringSetting("startTime"));
+            fin = DateTime.Parse(ConfigManager.readStringSetting("finishTime"));
         }
 
         void updateScreen(object sender, EventArgs e)
@@ -91,17 +97,22 @@ namespace TurneroViewer
                 CurrentWeather clima = this.ServiceQuery.getClima();
                 if (clima != null)
                 {
-                    tempLabel.Content = clima.toString();
-                    BitmapImage logo = new BitmapImage(new Uri(climaIconosPath + clima.clima.icono + ".png", UriKind.RelativeOrAbsolute));
-                    icono.Source = logo;
+                    if (clima.clima != null)
+                    {
+                        tempLabel.Content = clima.toString();
+                        BitmapImage logo = new BitmapImage(new Uri(climaIconosPath + clima.clima.icono + ".png", UriKind.RelativeOrAbsolute));
+                        icono.Source = logo;
+                    }
                 }
             }
             count++;
-
-            if (count % 2 == 0)
+            if ((DateTime.Now > inicio) && (DateTime.Now < fin))
             {
-                updateLlamados();
-                updateAtendidos();
+                if (count % 2 == 0)
+                {
+                    updateLlamados();
+                    updateAtendidos();
+                }
             }
         }
 

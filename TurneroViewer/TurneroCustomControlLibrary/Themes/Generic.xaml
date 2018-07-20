@@ -18,7 +18,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="BorderButton" Background="Transparent" Margin="10,15,10,15" >
+                    <Border x:Name="BorderButton" Background="Transparent" Margin="5" >
                         <ContentPresenter x:Name="CloseText" VerticalAlignment="Center" HorizontalAlignment="Center"  />
                     </Border>
                 </ControlTemplate>
@@ -26,7 +26,7 @@
         </Setter>
     </Style>
 
-
+   
     <Style TargetType="{x:Type local:WindowBase}">
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="Background" Value="{x:Null}"/>
@@ -38,7 +38,7 @@
                         <Grid>
                             <Grid.RowDefinitions>
                                 <!--Fila para el borde superior-->
-                                <RowDefinition Height="45"/>
+                                <RowDefinition Name="upperBorder" Height="40"/>
                                 <RowDefinition Height="5"/>
                                 <!--Fila para el contentpresenter-->
                                 <RowDefinition  Height="*"/>
@@ -51,14 +51,19 @@
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="18"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image Margin="5,0,5,0" Width="24" Height="24" x:Name="Icon" Grid.Column="0" Source="{Binding Icon,RelativeSource={RelativeSource FindAncestor,AncestorType=local:WindowBase}}"/>
+                                    <Image Margin="5,0,5,0" Width="24" Height="24" x:Name="Icon" Grid.Column="0" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Icon,RelativeSource={RelativeSource FindAncestor,AncestorType=local:WindowBase}}"/>
                                     <TextBlock Grid.Column="1" Text="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" Foreground="White" FontSize="18" FontWeight="Bold"  VerticalAlignment="Center" />
 
-                                    <Button Style="{StaticResource WindowButtonStyle}"  Grid.Column="2" x:Name="btMinimize">
+                                    <Image Margin="5" Height="24" x:Name="CaudaIcon" Grid.Column="2" RenderOptions.BitmapScalingMode="HighQuality"  Source="/TurneroCustomControlLibrary;component/Resources/Logo CAUDA.png"/>
+
+                                    <Button Style="{StaticResource WindowButtonStyle}"  Grid.Column="3" x:Name="btMinimize">
                                         <Image Height="18" Width="18">
                                             <Image.Resources>
                                                 <Style TargetType="{x:Type Image}">
+                                                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
                                                     <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Minimize.png"/>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
@@ -70,10 +75,11 @@
                                         </Image>
                                     </Button>
 
-                                    <Button Style="{StaticResource WindowButtonStyle}"  Grid.Column="3" x:Name="btMaximize">
+                                    <Button Style="{StaticResource WindowButtonStyle}"  Grid.Column="4" x:Name="btMaximize">
                                         <Image Height="18" Width="18">
                                             <Image.Resources>
                                                 <Style TargetType="{x:Type Image}">
+                                                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
                                                     <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Maximize.png"/>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">
@@ -85,10 +91,11 @@
                                         </Image>
                                     </Button>
 
-                                    <Button Style="{StaticResource WindowButtonStyle}"  Grid.Column="4" x:Name="btClose">
+                                    <Button Style="{StaticResource WindowButtonStyle}"  Grid.Column="5" x:Name="btClose">
                                         <Image Height="18" Width="18">
                                             <Image.Resources>
                                                 <Style TargetType="{x:Type Image}">
+                                                    <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality"></Setter>
                                                     <Setter Property="Source" Value="/TurneroCustomControlLibrary;component/Resources/Close.png"/>
                                                     <Style.Triggers>
                                                         <Trigger Property="IsMouseOver" Value="True">

@@ -86,6 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Settings.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -181,6 +182,32 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\Derivar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\Registrar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\Finalizar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\Atender.png" />
+    <Resource Include="Imagenes\Cancelar.png" />
+    <Resource Include="Imagenes\Editar.png" />
+    <Resource Include="Imagenes\Llamar.png" />
+    <Resource Include="Imagenes\Siguiente.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Botones\btnCancelDisabled.png" />
+    <Resource Include="Botones\btnCancelEnabled.png" />
+    <Resource Include="Botones\btnCancelOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Botones\btnFinalizeDisabled.png" />
+    <Resource Include="Botones\btnFinalizeEnabled.png" />
+    <Resource Include="Botones\btnFinalizeOver.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

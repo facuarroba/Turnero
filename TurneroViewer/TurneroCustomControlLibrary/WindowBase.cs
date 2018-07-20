@@ -51,14 +51,14 @@ namespace TurneroCustomControlLibrary
     {
         private string ID_TERMINAL;
         private string appName = "default";
+        private string terminalName = "";
+
         DispatcherTimer timer = null;
         ServiceQuery serviceQuery;
         NLogLogger logger;
 
-        
-
         int errorSpan = 5000;
-        int successSpan = 500;
+        int successSpan = 800;
         int maxErrorsCount = 5;
         int errorsCount = 0;
 
@@ -103,7 +103,7 @@ namespace TurneroCustomControlLibrary
 
             //accedemos al boton maximizar definido en el estilo
             Border TopBorder = GetTemplateChild("TopBorder") as Border;
-
+            
             if (TopBorder != null)
             {
                 //suscripcion al mousebuttondown del border de la ventana para permitir mover la ventana
@@ -150,6 +150,12 @@ namespace TurneroCustomControlLibrary
         {
             get { return ID_TERMINAL; }
             set { ID_TERMINAL = value; }
+        }
+
+        public string TerminalName
+        {
+            get { return terminalName; }
+            set { terminalName = value; }
         }
 
         public ServiceQuery ServiceQuery
@@ -204,6 +210,10 @@ namespace TurneroCustomControlLibrary
             this.ServiceQuery.server = ConfigManager.ReadConnectionSetting(AppName, "Servidor");
             this.ServiceQuery.urlPath = ConfigManager.ReadConnectionSetting(AppName, "ServicePath");
             this.IdTerminal = ConfigManager.readStringSetting("idTerminal");
+            TerminalName = this.ServiceQuery.consultarNombreTerminal(IdTerminal).ToString();
+
+            this.successSpan = Convert.ToInt32(ConfigManager.readStringSetting("updateSpan"));
+            this.errorSpan = Convert.ToInt32(ConfigManager.readStringSetting("updateOnErrorSpan"));
         }
 
         protected void onError()

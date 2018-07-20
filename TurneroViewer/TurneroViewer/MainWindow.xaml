@@ -6,7 +6,7 @@
         xmlns:base="clr-namespace:TurneroCustomControlLibrary;assembly=TurneroCustomControlLibrary"
         xmlns:componentes="clr-namespace:TurneroViewer.componentes" x:Class="TurneroViewer.MainWindow"
         Name="mainWindow" Title="" Height="350" Width="525" 
-        WindowState="Maximized" Topmost="True" Icon="Visualizador.ico">
+        WindowState="Normal" Topmost="True" Icon="Visualizador.ico">
     <!--
     <Window.Resources>
         <XmlDataProvider x:Key="rssData" XPath="//item" Source="http://clarin.feedsportal.com/c/33088/f/577681/index.rss" />

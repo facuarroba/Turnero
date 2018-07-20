@@ -10,12 +10,17 @@
             <Setter Property="Foreground" Value="WhiteSmoke"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="Opacity" Value="0.8"/>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=listColas, Path=SelectedItems.Count}"
-                     Value="0">
-                    <Setter Property="IsEnabled" Value="False"/>
-                </DataTrigger>
-            </Style.Triggers>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border BorderThickness="0"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>
